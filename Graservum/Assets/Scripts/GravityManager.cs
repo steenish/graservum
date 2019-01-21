@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class GravityManager : MonoBehaviour {
 
-    public GameObject debug_object1;
-    public GameObject debug_object2;
-    public Vector3 debug_force1;
-    public Vector3 debug_force2;
-
     public float gravityModifier = 1;
 
     const double GRAVITY_CONSTANT = 0.0000000000667408;
@@ -20,8 +15,6 @@ public class GravityManager : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        //debug_object1.GetComponent<Rigidbody>().AddForce(debug_force1);
-        //debug_object2.GetComponent<Rigidbody>().AddForce(debug_force2);
         exertGravity();
     }
 
@@ -41,16 +34,12 @@ public class GravityManager : MonoBehaviour {
                     float magnitude = calculateGravityNewton(object1.GetComponent<Rigidbody>().mass, object2.GetComponent<Rigidbody>().mass, Vector3.Distance(position1, position2)) * gravityModifier * Time.fixedDeltaTime;
 
                     Vector3 direction = (position2 - position1).normalized; // From position1 to position2.
-                    Debug.Log("Direction from object1 to object 2: " + direction);
 
                     object1.GetComponent<Rigidbody>().AddForce(magnitude * direction); // Apply gravitational force on object1 towards object2.
-                    if (object1.GetComponent<Rigidbody>() == null) Debug.Log("object1 rb is null");
-                    Debug.Log("Force on object1: (" + object1 + ") " + magnitude * direction);
 
                     direction = -direction; // Invert direction of force.
-                    object1.GetComponent<Rigidbody>().AddForce(magnitude * direction); // Apply gravitational force on object2 towards object1.
-                    if (object2.GetComponent<Rigidbody>() == null) Debug.Log("object2 rb is null");
-                    Debug.Log("Force on object2: (" + object2 + ") " + magnitude * direction);
+
+                    object2.GetComponent<Rigidbody>().AddForce(magnitude * direction); // Apply gravitational force on object2 towards object1.
                 }
             }
         }
