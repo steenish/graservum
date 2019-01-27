@@ -13,12 +13,10 @@ public class MassSizeController : MonoBehaviour {
     Rigidbody _rigidbody;
     int counter = 0;
     
-    // Start is called before the first frame update
     void Start() {
         _rigidbody = gameObject.GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update() {
         // Only alter scale every 10 frames
         if (counter++ >= 10) {
