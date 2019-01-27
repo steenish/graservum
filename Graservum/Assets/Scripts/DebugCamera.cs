@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class DebugCamera : MonoBehaviour {
 
-    public float camSpeed;
+    [SerializeField]
+    private float camSpeed = 1f;
 
     // Update is called once per frame
     void Update() {

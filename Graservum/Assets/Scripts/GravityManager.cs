@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GravityManager : MonoBehaviour {
 
-    public float gravityModifier = 1;
+    [SerializeField]
+    private float gravityModifier = 1;
 
     const double GRAVITY_CONSTANT = 0.0000000000667408;
     GameObject[] gravityObjects;
