@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class MassSizeController : MonoBehaviour {
     // This entire class assumes that all gravity objects are entirely spherical
 
