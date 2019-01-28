@@ -11,24 +11,18 @@ public class MassSizeController : MonoBehaviour {
     // Density of the moon: 3.34 kg/m3 (or mass units per distance units cubed)
 
     Rigidbody _rigidbody;
-    int counter = 0;
-    
+
     void Start() {
         _rigidbody = gameObject.GetComponent<Rigidbody>();
     }
 
     void Update() {
-        // Only alter scale every 10 frames
-        if (counter++ >= 10) {
-            counter = 0; // Reset counter
+        // Calculate the new scale from the radius depending on mass and density.
+        float mass = _rigidbody.mass;
+        float scale = GetRadius(mass) * 2;
 
-            // Calculate the new scale from the radius depending on mass and density.
-            float mass = _rigidbody.mass;
-            float scale = GetRadius(mass) * 2;
-
-            // Set the new scale.
-            gameObject.transform.localScale = new Vector3(scale, scale, scale);
-        }
+        // Set the new scale.
+        gameObject.transform.localScale = new Vector3(scale, scale, scale);
     }
 
     // Returns the radius of the sphere with the given mass (density is given globally).
