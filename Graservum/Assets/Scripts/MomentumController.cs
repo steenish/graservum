@@ -19,14 +19,22 @@ public class MomentumController : MonoBehaviour {
         if (other.gameObject.layer == LayerMask.NameToLayer("GravityObjects")) {
 
             // Check if the other object has a greater mass.
-            if (otherRigidbody.mass < _rigidbody.mass) {
+            if (otherRigidbody.mass <= _rigidbody.mass) {
+                // Calculate momentums
+                Vector3 otherMomentum = otherRigidbody.mass * otherRigidbody.velocity;
+                Vector3 momentum = _rigidbody.mass * _rigidbody.velocity;
+                
+                float totalMass = otherRigidbody.mass + _rigidbody.mass;
+                //Vector3 direction = (otherRigidbody.velocity + _rigidbody.velocity).normalized;
 
-                // Add together masses and velocities and destroy the other object.
+                // Add together masses.
                 _rigidbody.mass += otherRigidbody.mass;
-                _rigidbody.velocity += otherRigidbody.velocity;
+
+                // Set new velocity to product of direction and magnitude
+                _rigidbody.velocity = (otherMomentum + momentum) / totalMass;
+
+                // Destroy the other object.
                 Destroy(other.gameObject);
-            } else if (otherRigidbody.mass == _rigidbody.mass) { // Corner case when the masses are the same.
-                // Do something.
             }
         }
     }
