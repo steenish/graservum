@@ -7,9 +7,12 @@ public class MomentumController : MonoBehaviour {
 
     Rigidbody _rigidbody;
 
-    void Start()
-    {
+    void Start() {
         _rigidbody = gameObject.GetComponent<Rigidbody>();
+    }
+
+    void Update() {
+        Debug.Log(this + " velocity: " + _rigidbody.velocity);
     }
 
     void OnTriggerEnter(Collider other) {
@@ -37,5 +40,6 @@ public class MomentumController : MonoBehaviour {
                 Destroy(other.gameObject);
             }
         }
+        Debug.Log("Collision.");
     }
 }
