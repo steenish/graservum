@@ -5,7 +5,12 @@ using UnityEngine;
 public class GravityManager : MonoBehaviour {
 
     [SerializeField]
+    [Range(0.0f, 100.0f)]
     private float gravityModifier = 1;
+    private float gravityCoefficient = 1;
+
+    [SerializeField]
+    private bool modifiedGravity = false;
 
     const double GRAVITY_CONSTANT = 0.0000000000667408;
     GameObject[] gravityObjects;
@@ -13,6 +18,9 @@ public class GravityManager : MonoBehaviour {
     void Start() {
         updateList();
         InvokeRepeating("updateList", 1.0f, 1.0f);
+        if (modifiedGravity) {
+            gravityCoefficient = gravityModifier * 100000000000.0f;
+        }
     }
 
     void FixedUpdate() {
@@ -32,7 +40,7 @@ public class GravityManager : MonoBehaviour {
                     Vector3 position1 = object1.transform.position;
                     Vector3 position2 = object2.transform.position;
 
-                    float magnitude = calculateGravityNewton(object1.GetComponent<Rigidbody>().mass, object2.GetComponent<Rigidbody>().mass, Vector3.Distance(position1, position2)) * gravityModifier * Time.fixedDeltaTime;
+                    float magnitude = calculateGravityNewton(object1.GetComponent<Rigidbody>().mass, object2.GetComponent<Rigidbody>().mass, Vector3.Distance(position1, position2)) * gravityCoefficient * Time.fixedDeltaTime;
 
                     Vector3 direction = (position2 - position1).normalized; // From position1 to position2.
 
