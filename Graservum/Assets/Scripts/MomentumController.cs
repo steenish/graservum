@@ -23,18 +23,11 @@ public class MomentumController : MonoBehaviour {
 
             // Check if the other object has a greater mass.
             if (otherRigidbody.mass <= _rigidbody.mass) {
-                // Calculate momentums
-                Vector3 otherMomentum = otherRigidbody.mass * otherRigidbody.velocity;
-                Vector3 momentum = _rigidbody.mass * _rigidbody.velocity;
-                
-                float totalMass = otherRigidbody.mass + _rigidbody.mass;
-                //Vector3 direction = (otherRigidbody.velocity + _rigidbody.velocity).normalized;
-
-                // Add together masses.
-                _rigidbody.mass += otherRigidbody.mass;
-
                 // Set new velocity to product of direction and magnitude
-                _rigidbody.velocity = (otherMomentum + momentum) / totalMass;
+                _rigidbody.velocity = (otherRigidbody.mass * otherRigidbody.velocity + _rigidbody.mass * _rigidbody.velocity) / (otherRigidbody.mass + _rigidbody.mass);
+
+                // Add other object's mass to this object's mass.
+                _rigidbody.mass += otherRigidbody.mass;
 
                 // Destroy the other object.
                 Destroy(other.gameObject);
