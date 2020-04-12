@@ -12,8 +12,8 @@ public class GravityManager : MonoBehaviour {
     [SerializeField]
     private bool modifiedGravity = false;
 
-    const double GRAVITY_CONSTANT = 0.0000000000667408;
-    GameObject[] gravityObjects;
+    private const double GRAVITY_CONSTANT = 0.0000000000667408;
+    private GameObject[] _gravityObjects;
 
     void Start() {
         updateList();
@@ -28,15 +28,15 @@ public class GravityManager : MonoBehaviour {
     }
 
     void updateList() {
-        gravityObjects = HelperFunctions.FindGameObjectsOnLayer("GravityObjects");
+        _gravityObjects = HelperFunctions.FindGameObjectsOnLayer("GravityObjects");
     }
 
     void exertGravity() {
-        for (int i = 0; i < gravityObjects.Length; i++) {
-            for (int j = i + 1; j < gravityObjects.Length; j++) {
-                if (gravityObjects[i] != null && gravityObjects[j] != null && i != j) {
-                    GameObject object1 = gravityObjects[i];
-                    GameObject object2 = gravityObjects[j];
+        for (int i = 0; i < _gravityObjects.Length; i++) {
+            for (int j = i + 1; j < _gravityObjects.Length; j++) {
+                if (_gravityObjects[i] != null && _gravityObjects[j] != null && i != j) {
+                    GameObject object1 = _gravityObjects[i];
+                    GameObject object2 = _gravityObjects[j];
                     Vector3 position1 = object1.transform.position;
                     Vector3 position2 = object2.transform.position;
 
