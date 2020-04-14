@@ -8,8 +8,9 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField]
     private float emissionSpeed = 10.0f;
-    [SerializeField]
-    private float maxEmittedMass = 10.0f;
+	[SerializeField]
+	[Range(0.01f, 1.0f)]
+	private float maxEmittedMassFraction = 0.1f;
     [SerializeField]
     private Transform childCollectionTransform;
     [SerializeField]
@@ -19,6 +20,9 @@ public class PlayerController : MonoBehaviour {
     private float timeToMaxValue = 2.0f;
     [SerializeField]
     private Slider massSlider;
+	[SerializeField]
+	[Range(1.0f, 5.0f)]
+	private float sliderSpeed = 2.0f;
     [SerializeField]
     private GameObject emittedObjectPrefab;
 
@@ -45,7 +49,7 @@ public class PlayerController : MonoBehaviour {
 
         // Check for mouse held, update slider with new value.
         if (Input.GetMouseButton(0)) {
-            _accumulatedTime += Time.deltaTime;
+            _accumulatedTime += Time.deltaTime * sliderSpeed;
             float progress = _accumulatedTime / timeToMaxValue * massSlider.maxValue;
             massSlider.value = Mathf.Clamp(progress, massSlider.minValue, massSlider.maxValue);
         }
@@ -61,7 +65,7 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate() {
         if (_instantiateOnNextFixedUpdate) {
             // Calculate mass.
-            float emittedMass = _massSliderProgress * maxEmittedMass;
+            float emittedMass = _massSliderProgress * maxEmittedMassFraction * _rigidbody.mass;
             float newMass = _rigidbody.mass - emittedMass;
             Debug.Log("newMass = " + newMass);
             Debug.Log("emittedMass = " + emittedMass);
@@ -81,7 +85,7 @@ public class PlayerController : MonoBehaviour {
             childRigidbody.velocity = targetDirection * emissionSpeed;
 
             _rigidbody.mass = newMass;
-            _rigidbody.velocity = newVelocity;
+            _rigidbody.velocity += newVelocity;
 
             _instantiateOnNextFixedUpdate = false;
         }
