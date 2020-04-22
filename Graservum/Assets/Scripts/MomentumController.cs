@@ -17,18 +17,15 @@ public class MomentumController : MonoBehaviour {
         if (otherRigidbody != null) {
             // Check if the other collider is a gravity object.
             if (other.gameObject.layer == LayerMask.NameToLayer("GravityObjects")) {
+				
+                // Set new velocity to product of direction and magnitude
+                _rigidbody.velocity = (otherRigidbody.mass * otherRigidbody.velocity + _rigidbody.mass * _rigidbody.velocity) / (otherRigidbody.mass + _rigidbody.mass);
 
-                // Check if the other object has a greater mass.
-                if (otherRigidbody.mass <= _rigidbody.mass) {
-                    // Set new velocity to product of direction and magnitude
-                    _rigidbody.velocity = (otherRigidbody.mass * otherRigidbody.velocity + _rigidbody.mass * _rigidbody.velocity) / (otherRigidbody.mass + _rigidbody.mass);
+                // Add other object's mass to this object's mass.
+                _rigidbody.mass += otherRigidbody.mass;
 
-                    // Add other object's mass to this object's mass.
-                    _rigidbody.mass += otherRigidbody.mass;
-
-                    // Destroy the other object.
-                    Destroy(other.gameObject);
-                }
+                // Destroy the other object.
+                Destroy(other.gameObject);
             }
         }
     }

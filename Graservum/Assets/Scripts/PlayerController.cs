@@ -37,10 +37,11 @@ public class PlayerController : MonoBehaviour {
 
     void Update() {
         // Get mouse position to target.
-        Vector3 targetPosition = 100 * GetMousePosTargetDirection();
+        Vector3 targetPosition = 100 * GetMouseTargetDirection();
 
-        // Set line direction.
-        line.SetPosition(1, targetPosition);
+		// Set line direction.
+		line.SetPosition(1, targetPosition);
+		Debug.DrawLine(transform.position, targetPosition);
 
         // Check for new clicks, start slider timer.
         if (Input.GetMouseButtonDown(0)) {
@@ -67,11 +68,9 @@ public class PlayerController : MonoBehaviour {
             // Calculate mass.
             float emittedMass = _massSliderProgress * maxEmittedMassFraction * _rigidbody.mass;
             float newMass = _rigidbody.mass - emittedMass;
-            Debug.Log("newMass = " + newMass);
-            Debug.Log("emittedMass = " + emittedMass);
 
             // Get mouse position to target.
-            Vector3 targetDirection = GetMousePosTargetDirection();
+            Vector3 targetDirection = -GetMouseTargetDirection();
 
             // Calculate velocity.
             Vector3 newVelocity = Time.fixedDeltaTime * (_rigidbody.mass * _rigidbody.velocity - emittedMass * targetDirection * emissionSpeed) / newMass;
@@ -91,9 +90,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private Vector3 GetMousePosTargetDirection() {
+	// Returns normalized direction vector from the player to the mouse position projected on the plane the player moves in.
+    private Vector3 GetMouseTargetDirection() {
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        targetPos.z = transform.position.z;
-        return Vector3.Normalize(transform.InverseTransformPoint(targetPos));
+		targetPos.z = transform.position.z;
+		return transform.InverseTransformPoint(targetPos);
     }
 }

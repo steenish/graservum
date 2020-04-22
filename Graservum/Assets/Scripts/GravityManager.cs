@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class GravityManager : MonoBehaviour {
 
-    [SerializeField]
+	[SerializeField]
+	private bool modifiedGravity = false;
+	[SerializeField]
     [Range(0.0f, 100.0f)]
     private float gravityModifier = 1;
-    private float gravityCoefficient = 1;
-
-    [SerializeField]
-    private bool modifiedGravity = false;
 
     private const double GRAVITY_CONSTANT = 0.0000000000667408;
     private GameObject[] _gravityObjects;
+	private float gravityCoefficient = 1;
 
-    void Start() {
+	void Start() {
         updateList();
         InvokeRepeating("updateList", 1.0f, 1.0f);
         if (modifiedGravity) {
