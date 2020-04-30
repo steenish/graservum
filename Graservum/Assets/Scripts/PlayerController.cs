@@ -12,19 +12,25 @@ public class PlayerController : MonoBehaviour {
 	[Range(0.01f, 1.0f)]
 	private float maxEmittedMassFraction = 0.1f;
     [SerializeField]
+#pragma warning disable
     private Transform childCollectionTransform;
     [SerializeField]
     private LineRenderer line;
+#pragma warning restore
     [SerializeField]
     [Range(1.0f, 10.0f)]
     private float timeToMaxValue = 2.0f;
     [SerializeField]
+#pragma warning disable
     private Slider massSlider;
-	[SerializeField]
+#pragma warning restore
+    [SerializeField]
 	[Range(1.0f, 5.0f)]
 	private float sliderSpeed = 2.0f;
     [SerializeField]
+#pragma warning disable
     private GameObject emittedObjectPrefab;
+#pragma warning restore
 
     private bool _instantiateOnNextFixedUpdate;
     private float _accumulatedTime;
@@ -63,6 +69,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    // TODO add spring forces for play area bounds
     void FixedUpdate() {
         if (_instantiateOnNextFixedUpdate) {
             // Calculate mass.

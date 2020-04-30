@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-    private float zOffset;
+	public Bounds cameraBounds { get; private set; }
 
 	void Start() {
-		zOffset = -transform.position.z;
+		Vector3 center = Vector3.zero;
+		Vector3 size = new Vector3(Screen.width, Screen.height, 10.0f);
+		cameraBounds = new Bounds(center, size);
 	}
-
-	void Update() {
-        transform.position = transform.parent.position + new Vector3(0.0f, 0.0f, -zOffset);
-        transform.rotation = Quaternion.identity;
-    }
 }

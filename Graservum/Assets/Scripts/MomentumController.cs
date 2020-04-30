@@ -5,6 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MomentumController : MonoBehaviour {
 
+    [SerializeField]
+#pragma warning disable
+    private AsteroidManager asteroidManager;
+#pragma warning restore
+
     private Rigidbody _rigidbody;
 
     void Start() {
@@ -23,6 +28,9 @@ public class MomentumController : MonoBehaviour {
 
                 // Add other object's mass to this object's mass.
                 _rigidbody.mass += otherRigidbody.mass;
+
+                // Remove the asteroid from the asteroid manager.
+                asteroidManager.RemoveAsteroid(otherRigidbody.mass);
 
                 // Destroy the other object.
                 Destroy(other.gameObject);
