@@ -10,10 +10,8 @@ public class PlayerController : MonoBehaviour {
     private float emissionSpeed = 10.0f;
 	[SerializeField]
 	[Range(0.01f, 1.0f)]
-	private float maxEmittedMassFraction = 0.1f;
-    [SerializeField]
+	private float maxEmittedMassPerSecondFraction = 0.01f;
 #pragma warning disable
-    private Transform childCollectionTransform;
     [SerializeField]
     private LineRenderer line;
 #pragma warning restore
@@ -27,12 +25,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
 	[Range(1.0f, 5.0f)]
 	private float sliderSpeed = 2.0f;
-    [SerializeField]
-#pragma warning disable
-    private GameObject emittedObjectPrefab;
-#pragma warning restore
 
-    private bool _instantiateOnNextFixedUpdate;
+    private bool currentlyAccelerating;
     private float _accumulatedTime;
     private float _massSliderProgress;
     private Rigidbody _rigidbody;
@@ -52,6 +46,7 @@ public class PlayerController : MonoBehaviour {
         // Check for new clicks, start slider timer.
         if (Input.GetMouseButtonDown(0)) {
             _accumulatedTime = 0.0f;
+            currentlyAccelerating = true;
         }
 
         // Check for mouse held, update slider with new value.
@@ -59,41 +54,32 @@ public class PlayerController : MonoBehaviour {
             _accumulatedTime += Time.deltaTime * sliderSpeed;
             float progress = _accumulatedTime / timeToMaxValue * massSlider.maxValue;
             massSlider.value = Mathf.Clamp(progress, massSlider.minValue, massSlider.maxValue);
+            _massSliderProgress = massSlider.value / (massSlider.maxValue - massSlider.minValue);
         }
 
         // Check for mouse button release, set emission flag and reset slider.
         if (Input.GetMouseButtonUp(0)) {
             _massSliderProgress = massSlider.value / (massSlider.maxValue - massSlider.minValue);
             massSlider.value = massSlider.minValue;
-            _instantiateOnNextFixedUpdate = true;
+            currentlyAccelerating = false;
         }
     }
 
     // TODO add spring forces for play area bounds
     void FixedUpdate() {
-        if (_instantiateOnNextFixedUpdate) {
+        if (currentlyAccelerating) {
             // Calculate mass.
-            float emittedMass = _massSliderProgress * maxEmittedMassFraction * _rigidbody.mass;
-            float newMass = _rigidbody.mass - emittedMass;
+            float differentialEmittedMass = _massSliderProgress * maxEmittedMassPerSecondFraction * _rigidbody.mass * Time.fixedDeltaTime;
+            float newMass = _rigidbody.mass - differentialEmittedMass;
 
             // Get mouse position to target.
-            Vector3 targetDirection = -GetMouseTargetDirection();
+            Vector3 targetDirection = GetMouseTargetDirection();
 
             // Calculate velocity.
-            Vector3 newVelocity = Time.fixedDeltaTime * (_rigidbody.mass * _rigidbody.velocity - emittedMass * targetDirection * emissionSpeed) / newMass;
-
-            // Instantiate child.
-            GameObject childObject = Instantiate(emittedObjectPrefab, transform.position + targetDirection * transform.localScale.x, transform.rotation, childCollectionTransform);
-
-            // Update mass and velocities.
-            Rigidbody childRigidbody = childObject.GetComponent<Rigidbody>();
-            childRigidbody.mass = emittedMass;
-            childRigidbody.velocity = targetDirection * emissionSpeed;
+            Vector3 newVelocity = (_rigidbody.mass * _rigidbody.velocity - differentialEmittedMass * targetDirection * emissionSpeed) / newMass;
 
             _rigidbody.mass = newMass;
-            _rigidbody.velocity += newVelocity;
-
-            _instantiateOnNextFixedUpdate = false;
+            _rigidbody.velocity = newVelocity;
         }
     }
 
