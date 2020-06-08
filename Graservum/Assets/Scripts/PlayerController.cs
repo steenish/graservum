@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -11,10 +12,6 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	[Range(0.01f, 1.0f)]
 	private float maxEmittedMassPerSecondFraction = 0.01f;
-#pragma warning disable
-    [SerializeField]
-    private LineRenderer line;
-#pragma warning restore
     [SerializeField]
     [Range(1.0f, 10.0f)]
     private float timeToMaxValue = 2.0f;
@@ -24,48 +21,91 @@ public class PlayerController : MonoBehaviour {
 #pragma warning restore
     [SerializeField]
 	[Range(1.0f, 5.0f)]
-	private float sliderSpeed = 2.0f;
+	private float accelerationRate = 2.0f;
+    [SerializeField]
+    [Range(1.0f, 5.0f)]
+    private float cooldownRate = 2.0f;
+    [SerializeField]
+#pragma warning disable
+    private Transform engineTransform;
+    [SerializeField]
+    private ParticleSystem engineExhaustParticles;
+    [SerializeField]
+    private Color minSpeedColor;
+    [SerializeField]
+    private Color maxSpeedColor;
+#pragma warning restore
 
     private bool currentlyAccelerating;
-    private float _accumulatedTime;
+    private float _accumulatedTime = 0.0f;
     private float _massSliderProgress;
+    private Gradient currentGradient;
+    private GradientColorKey[] colorKeys;
+    private GradientAlphaKey[] alphaKeys;
+    private ParticleSystem.ColorOverLifetimeModule exhaustColorModule;
+    private ParticleSystem.MainModule exhaustMainModule;
     private Rigidbody _rigidbody;
 
     void Start() {
         _rigidbody = GetComponent<Rigidbody>();
+        exhaustColorModule = engineExhaustParticles.colorOverLifetime;
+        exhaustMainModule = engineExhaustParticles.main;
+            
+        exhaustMainModule.startSpeed = emissionSpeed;
+
+        colorKeys = new GradientColorKey[] { new GradientColorKey(minSpeedColor, 0.0f), new GradientColorKey(Color.white, 0.5f) };
+        alphaKeys = new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) };
+        currentGradient = new Gradient();
+        currentGradient.SetKeys(colorKeys, alphaKeys);
     }
 
     void Update() {
-        // Get mouse position to target.
-        Vector3 targetPosition = 100 * GetMouseTargetDirection();
 
-		// Set line direction.
-		line.SetPosition(1, targetPosition);
-		Debug.DrawLine(transform.position, targetPosition);
+        Debug.Log(engineExhaustParticles.isPlaying);
+
+        MoveEngine();
 
         // Check for new clicks, start slider timer.
         if (Input.GetMouseButtonDown(0)) {
-            _accumulatedTime = 0.0f;
             currentlyAccelerating = true;
         }
 
-        // Check for mouse held, update slider with new value.
+        // Check for mouse held, update the accumulated time.
         if (Input.GetMouseButton(0)) {
-            _accumulatedTime += Time.deltaTime * sliderSpeed;
-            float progress = _accumulatedTime / timeToMaxValue * massSlider.maxValue;
-            massSlider.value = Mathf.Clamp(progress, massSlider.minValue, massSlider.maxValue);
-            _massSliderProgress = massSlider.value / (massSlider.maxValue - massSlider.minValue);
+            _accumulatedTime += Time.deltaTime * accelerationRate;
+        } else {
+            _accumulatedTime -= Time.deltaTime * cooldownRate;
         }
+        _accumulatedTime = Mathf.Clamp(_accumulatedTime, 0.0f, timeToMaxValue);
+
+        // Update slider with new value.
+        float progress = _accumulatedTime / timeToMaxValue * massSlider.maxValue;
+        massSlider.value = Mathf.Clamp(progress, massSlider.minValue, massSlider.maxValue);
+        _massSliderProgress = massSlider.value / (massSlider.maxValue - massSlider.minValue);
+
+        // Update particle size from asteroid scale.
+        exhaustMainModule.startSize = transform.localScale.x;
 
         // Check for mouse button release, set emission flag and reset slider.
         if (Input.GetMouseButtonUp(0)) {
-            _massSliderProgress = massSlider.value / (massSlider.maxValue - massSlider.minValue);
-            massSlider.value = massSlider.minValue;
             currentlyAccelerating = false;
+        }
+
+        // Update exhaust. TODO debug this stuff
+        if (_massSliderProgress > massSlider.minValue) {
+            if (!engineExhaustParticles.isPlaying) {
+                engineExhaustParticles.Play();
+            }
+
+            Color currentAccelerationColor = Color.Lerp(minSpeedColor, maxSpeedColor, _massSliderProgress);
+            colorKeys[0].color = currentAccelerationColor;
+            currentGradient.SetKeys(colorKeys, alphaKeys);
+            exhaustColorModule.color = currentGradient;
+        } else {
+            engineExhaustParticles.Stop();
         }
     }
 
-    // TODO add spring forces for play area bounds
     void FixedUpdate() {
         if (currentlyAccelerating) {
             // Calculate mass.
@@ -87,6 +127,14 @@ public class PlayerController : MonoBehaviour {
     private Vector3 GetMouseTargetDirection() {
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		targetPos.z = transform.position.z;
-		return transform.InverseTransformPoint(targetPos);
+		return transform.InverseTransformPoint(targetPos).normalized;
+    }
+
+    // Moves the engine to the appropriate position on the asteroid's surface according to mouse position.
+    private void MoveEngine() {
+        Vector3 targetDirection = GetMouseTargetDirection();
+        float angle = Vector3.Angle(Vector3.down, targetDirection);
+        engineTransform.position = transform.position + targetDirection * transform.localScale.x;
+        engineTransform.localEulerAngles = new Vector3(0.0f, 0.0f, (targetDirection.x < 0) ? 360 - angle : angle);
     }
 }
