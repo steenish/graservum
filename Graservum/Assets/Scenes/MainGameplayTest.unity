@@ -5588,9 +5588,9 @@ GameObject:
   - component: {fileID: 1456152540}
   - component: {fileID: 1456152536}
   - component: {fileID: 1456152535}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5711,7 +5711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c8857317edee524b8b4a3e88c8d1284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emissionSpeed: 100
+  emissionSpeed: 1000
   maxEmittedMassPerSecondFraction: 0.01
   timeToMaxValue: 2
   massSlider: {fileID: 2042856395}
@@ -5721,6 +5721,7 @@ MonoBehaviour:
   engineExhaustParticles: {fileID: 301218433}
   minSpeedColor: {r: 1, g: 0.36862782, b: 0, a: 0}
   maxSpeedColor: {r: 0, g: 0.69138074, b: 1, a: 0}
+  springStiffness: 100000
 --- !u!135 &1456152541
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6075,6 +6076,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c600c66a21696d84bb3fd408dbc88e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showDebugBoundsVis: 0
+  debugBoundsVis: {fileID: 3888132821626920644, guid: 77804eeecdd1042428b5cb525c487ec6,
+    type: 3}
 --- !u!1 &2042856393
 GameObject:
   m_ObjectHideFlags: 0

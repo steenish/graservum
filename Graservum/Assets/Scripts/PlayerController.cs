@@ -36,8 +36,11 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private Color maxSpeedColor;
 #pragma warning restore
+    [SerializeField]
+    private float springStiffness = 1.0f;
 
     private bool currentlyAccelerating;
+    private Bounds playerBounds;
     private float accumulatedTime = 0.0f;
     private float massSliderProgress;
     private float onConstant;
@@ -51,6 +54,9 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody _rigidbody;
 
     void Start() {
+        playerBounds = Camera.main.GetComponent<CameraController>().cameraBounds;
+        Debug.Log(playerBounds);
+
         _rigidbody = GetComponent<Rigidbody>();
         exhaustColorModule = engineExhaustParticles.colorOverLifetime;
         exhaustEmissionModule = engineExhaustParticles.emission;
@@ -68,10 +74,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
-
-        Debug.Log("isPlaying = " + engineExhaustParticles.isPlaying);
-        Debug.Log("isEmitting = " + engineExhaustParticles.isEmitting);
-
+        // Move the actual position of the engine model.
         MoveEngine();
 
         // Check for new clicks, start slider timer.
@@ -105,7 +108,6 @@ public class PlayerController : MonoBehaviour {
             if (exhaustEmissionRateOverTime.constant == 0) {
                 engineExhaustParticles.Play(true);
                 exhaustEmissionRateOverTime.constant = onConstant;
-                Debug.Log("Play.");
             }
 
             Color currentAccelerationColor = Color.Lerp(minSpeedColor, maxSpeedColor, massSliderProgress);
@@ -115,11 +117,11 @@ public class PlayerController : MonoBehaviour {
         } else {
             engineExhaustParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             exhaustEmissionRateOverTime.constant = 0.0f;
-            Debug.Log("Stopped.");
         }
     }
 
     void FixedUpdate() {
+        // If player input has said to accelerate on last Update(), accelerate.
         if (currentlyAccelerating) {
             // Calculate mass.
             float differentialEmittedMass = massSliderProgress * maxEmittedMassPerSecondFraction * _rigidbody.mass * Time.fixedDeltaTime;
@@ -131,8 +133,17 @@ public class PlayerController : MonoBehaviour {
             // Calculate velocity.
             Vector3 newVelocity = (_rigidbody.mass * _rigidbody.velocity - differentialEmittedMass * targetDirection * emissionSpeed) / newMass;
 
+            // Apply mass and velocity.
             _rigidbody.mass = newMass;
             _rigidbody.velocity = newVelocity;
+        }
+
+        // If player is not in bounds, apply spring force to return player to bounds.
+        if (!playerBounds.Contains(transform.position)) {
+            // Get normalized direction vector from player to closest point on bounds and scale by spring stiffness.
+            Vector3 springForce = springStiffness * Vector3.Normalize(playerBounds.ClosestPoint(transform.position) - transform.position);
+            _rigidbody.AddForce(springForce);
+            Debug.Log("not in bounds");
         }
     }
 
