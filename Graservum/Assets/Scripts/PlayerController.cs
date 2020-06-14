@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
@@ -37,20 +38,27 @@ public class PlayerController : MonoBehaviour {
 #pragma warning restore
 
     private bool currentlyAccelerating;
-    private float _accumulatedTime = 0.0f;
-    private float _massSliderProgress;
+    private float accumulatedTime = 0.0f;
+    private float massSliderProgress;
+    private float onConstant;
     private Gradient currentGradient;
     private GradientColorKey[] colorKeys;
     private GradientAlphaKey[] alphaKeys;
     private ParticleSystem.ColorOverLifetimeModule exhaustColorModule;
+    private ParticleSystem.EmissionModule exhaustEmissionModule;
     private ParticleSystem.MainModule exhaustMainModule;
+    private ParticleSystem.MinMaxCurve exhaustEmissionRateOverTime;
     private Rigidbody _rigidbody;
 
     void Start() {
         _rigidbody = GetComponent<Rigidbody>();
         exhaustColorModule = engineExhaustParticles.colorOverLifetime;
+        exhaustEmissionModule = engineExhaustParticles.emission;
         exhaustMainModule = engineExhaustParticles.main;
-            
+        exhaustEmissionRateOverTime = exhaustEmissionModule.rateOverTime;
+
+        onConstant = exhaustEmissionRateOverTime.constant;
+        exhaustEmissionRateOverTime.constant = 0.0f;
         exhaustMainModule.startSpeed = emissionSpeed;
 
         colorKeys = new GradientColorKey[] { new GradientColorKey(minSpeedColor, 0.0f), new GradientColorKey(Color.white, 0.5f) };
@@ -61,7 +69,8 @@ public class PlayerController : MonoBehaviour {
 
     void Update() {
 
-        Debug.Log(engineExhaustParticles.isPlaying);
+        Debug.Log("isPlaying = " + engineExhaustParticles.isPlaying);
+        Debug.Log("isEmitting = " + engineExhaustParticles.isEmitting);
 
         MoveEngine();
 
@@ -72,16 +81,16 @@ public class PlayerController : MonoBehaviour {
 
         // Check for mouse held, update the accumulated time.
         if (Input.GetMouseButton(0)) {
-            _accumulatedTime += Time.deltaTime * accelerationRate;
+            accumulatedTime += Time.deltaTime * accelerationRate;
         } else {
-            _accumulatedTime -= Time.deltaTime * cooldownRate;
+            accumulatedTime -= Time.deltaTime * cooldownRate;
         }
-        _accumulatedTime = Mathf.Clamp(_accumulatedTime, 0.0f, timeToMaxValue);
+        accumulatedTime = Mathf.Clamp(accumulatedTime, 0.0f, timeToMaxValue);
 
         // Update slider with new value.
-        float progress = _accumulatedTime / timeToMaxValue * massSlider.maxValue;
+        float progress = accumulatedTime / timeToMaxValue * massSlider.maxValue;
         massSlider.value = Mathf.Clamp(progress, massSlider.minValue, massSlider.maxValue);
-        _massSliderProgress = massSlider.value / (massSlider.maxValue - massSlider.minValue);
+        massSliderProgress = massSlider.value / (massSlider.maxValue - massSlider.minValue);
 
         // Update particle size from asteroid scale.
         exhaustMainModule.startSize = transform.localScale.x;
@@ -92,24 +101,28 @@ public class PlayerController : MonoBehaviour {
         }
 
         // Update exhaust. TODO debug this stuff
-        if (_massSliderProgress > massSlider.minValue) {
-            if (!engineExhaustParticles.isPlaying) {
-                engineExhaustParticles.Play();
+        if (massSliderProgress > massSlider.minValue) {
+            if (exhaustEmissionRateOverTime.constant == 0) {
+                engineExhaustParticles.Play(true);
+                exhaustEmissionRateOverTime.constant = onConstant;
+                Debug.Log("Play.");
             }
 
-            Color currentAccelerationColor = Color.Lerp(minSpeedColor, maxSpeedColor, _massSliderProgress);
+            Color currentAccelerationColor = Color.Lerp(minSpeedColor, maxSpeedColor, massSliderProgress);
             colorKeys[0].color = currentAccelerationColor;
             currentGradient.SetKeys(colorKeys, alphaKeys);
             exhaustColorModule.color = currentGradient;
         } else {
-            engineExhaustParticles.Stop();
+            engineExhaustParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            exhaustEmissionRateOverTime.constant = 0.0f;
+            Debug.Log("Stopped.");
         }
     }
 
     void FixedUpdate() {
         if (currentlyAccelerating) {
             // Calculate mass.
-            float differentialEmittedMass = _massSliderProgress * maxEmittedMassPerSecondFraction * _rigidbody.mass * Time.fixedDeltaTime;
+            float differentialEmittedMass = massSliderProgress * maxEmittedMassPerSecondFraction * _rigidbody.mass * Time.fixedDeltaTime;
             float newMass = _rigidbody.mass - differentialEmittedMass;
 
             // Get mouse position to target.
