@@ -37,7 +37,11 @@ public class PlayerController : MonoBehaviour {
     private Color maxSpeedColor;
 #pragma warning restore
     [SerializeField]
+    private float particleSpeedModifier = 1.0f;
+    [SerializeField]
     private float springStiffness = 1.0f;
+    [SerializeField]
+    private float velocityDampingModifier = 1.0f;
 
     private bool currentlyAccelerating;
     private Bounds playerBounds;
@@ -65,12 +69,16 @@ public class PlayerController : MonoBehaviour {
 
         onConstant = exhaustEmissionRateOverTime.constant;
         exhaustEmissionRateOverTime.constant = 0.0f;
-        exhaustMainModule.startSpeed = emissionSpeed;
+        exhaustMainModule.startSpeed = emissionSpeed * particleSpeedModifier;
 
         colorKeys = new GradientColorKey[] { new GradientColorKey(minSpeedColor, 0.0f), new GradientColorKey(Color.white, 0.5f) };
         alphaKeys = new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) };
         currentGradient = new Gradient();
         currentGradient.SetKeys(colorKeys, alphaKeys);
+    }
+
+    void OnDestroy() {
+        Debug.Log("Game Over!");
     }
 
     void Update() {
@@ -140,10 +148,12 @@ public class PlayerController : MonoBehaviour {
 
         // If player is not in bounds, apply spring force to return player to bounds.
         if (!playerBounds.Contains(transform.position)) {
+            // Dampen velocity.
+            _rigidbody.velocity *= velocityDampingModifier;
+
             // Get normalized direction vector from player to closest point on bounds and scale by spring stiffness.
             Vector3 springForce = springStiffness * Vector3.Normalize(playerBounds.ClosestPoint(transform.position) - transform.position);
             _rigidbody.AddForce(springForce);
-            Debug.Log("not in bounds");
         }
     }
 

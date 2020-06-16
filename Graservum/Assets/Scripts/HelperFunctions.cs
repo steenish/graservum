@@ -6,6 +6,9 @@ public class HelperFunctions : MonoBehaviour {
 
     public static readonly float EPSILON = 0.001f;
 
+    private static float spareGaussian;
+    private static bool hasSpareGaussian = false;
+
     // Returns an array of GameObjects that are on the layer which name was specified by the argument. Returns null if no such layer was found.
     public static GameObject[] FindGameObjectsOnLayer(string layerName) {
         int layer = LayerMask.NameToLayer(layerName);
@@ -24,6 +27,26 @@ public class HelperFunctions : MonoBehaviour {
         }
 
         return null;
+    }
+
+    // Uses the Marsaglia polar method to generate a Gaussian distributed number with given mean and standard deviation.
+    // Optimized to use both generated numbers from Marsaglia.
+    public static float GenerateGaussian(float mean, float standardDeviation) {
+        if (hasSpareGaussian) {
+            hasSpareGaussian = false;
+            return spareGaussian * standardDeviation + mean;
+        } else {
+            float u, v, s;
+            do {
+                u = Random.Range(0.0f, 1.0f);
+                v = Random.Range(0.0f, 1.0f);
+                s = u * u + v * v;
+            } while (s >= 1 || s == 0);
+            s = Mathf.Sqrt((float) -2.0 * Mathf.Log(s) / s);
+            spareGaussian = v * s;
+            hasSpareGaussian = true;
+            return mean + standardDeviation * u * s;
+        }
     }
 
     // Returns an array of all GameObjects that are active in the Scene Hierarchy.
