@@ -91,7 +91,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5612927283552800170}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -110,7 +110,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 8
   m_CollisionDetection: 0
 --- !u!114 &3415465940387518141
 MonoBehaviour:
@@ -137,4 +137,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d68b8f4b44f4a4082a11f7c83463ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asteroidManager: {fileID: 0}

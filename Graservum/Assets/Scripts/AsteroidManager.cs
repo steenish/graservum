@@ -22,12 +22,18 @@ public class AsteroidManager : MonoBehaviour {
     [SerializeField]
     private GameObject asteroidPrefab;
 #pragma warning restore
+    [SerializeField]
+    private float springStiffness = 1.0f;
 
+    private Bounds asteroidBounds { get; set; }
+    private Bounds cameraBounds;
     private float zValue;
     private int currentNumAsteroids;
-    private List<GameObject> asteroids;
 
     void Start() {
+        cameraBounds = Camera.main.GetComponent<CameraController>().cameraBounds;
+        asteroidBounds = new Bounds(cameraBounds.center, cameraBounds.size + new Vector3(spawnDistanceOutsideBounds, spawnDistanceOutsideBounds, 0.0f));
+
         zValue = GameObject.Find("Player").transform.position.z;
     }
 
@@ -38,20 +44,28 @@ public class AsteroidManager : MonoBehaviour {
         }
     }
 
+    public void AsteroidDestroyed() {
+        currentNumAsteroids--;
+    }
+
+    void FixedUpdate() {
+        // Do bounds checking and apply spring forces.
+        foreach (GameObject asteroid in HelperFunctions.FindGameObjectsOnLayer("GravityObjects")) {
+            if (!asteroidBounds.Contains(asteroid.transform.position)) {
+                asteroid.GetComponent<Rigidbody>().AddForce(springStiffness * Vector3.Normalize(asteroidBounds.ClosestPoint(transform.position) - transform.position));
+            }
+        }
+    }
+
     private void SpawnAsteroid() {
         currentNumAsteroids++;
-        Bounds cameraBounds = Camera.main.GetComponent<CameraController>().cameraBounds;
 
-        Vector3 position = HelperFunctions.RandomPointOutsideBounds2d(cameraBounds, spawnDistanceOutsideBounds);
+        Vector3 position = HelperFunctions.RandomPointInBoundsOutsideBounds(cameraBounds, asteroidBounds);
         position.z = zValue;
         GameObject newAsteroid = Instantiate(asteroidPrefab, position, Quaternion.identity, asteroidParent);
         Rigidbody rigidbody = newAsteroid.GetComponent<Rigidbody>();
         rigidbody.mass = HelperFunctions.GenerateGaussian(meanMass, massStandardDeviation);
         rigidbody.velocity = Vector3.Normalize(cameraBounds.ClosestPoint(position) - position) * Random.Range(1.0f, maxVelocity);
         rigidbody.angularVelocity = new Vector3(Random.Range(0.0f, Mathf.PI), Random.Range(0.0f, Mathf.PI), Random.Range(0.0f, Mathf.PI));
-
-        asteroids.Add(newAsteroid);
     }
-
-    // TODO bounds checking
 }

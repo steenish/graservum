@@ -63,39 +63,58 @@ public class HelperFunctions : MonoBehaviour {
         return result.ToArray();
     }
 
+    // Gets a private property value of obj with name propertyName.
+    public static object GetPrivateProperty(Object obj, string propertyName) {
+        if (obj == null) return null;
+        System.Reflection.PropertyInfo propertyInfo = obj.GetType().GetProperty(propertyName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        return propertyInfo == null ? null : propertyInfo.GetValue(obj, null);
+    }
+
     public static Vector3 RandomPointInBounds(Bounds bounds) {
         return new Vector3(Random.Range(bounds.min.x, bounds.max.x),
                            Random.Range(bounds.min.y, bounds.max.y),
                            Random.Range(bounds.min.z, bounds.max.z));
     }
 
+    // Calculates a random point somewhere at most a distance distanceOutside outside the bounds. 
     public static Vector3 RandomPointOutsideBounds(Bounds bounds, float distanceOutside) {
-        bool negativeX = (Random.Range(0.0f, 1.0f) < 0.5f) ? true : false;
-        bool negativeY = (Random.Range(0.0f, 1.0f) < 0.5f) ? true : false;
-        bool negativeZ = (Random.Range(0.0f, 1.0f) < 0.5f) ? true : false;
+        bool negativeX = (Random.Range(0, 2) == 0) ? true : false;
+        bool negativeY = (Random.Range(0, 2) == 0) ? true : false;
+        bool negativeZ = (Random.Range(0, 2) == 0) ? true : false;
 
-        float x = negativeX ? Random.Range(-Mathf.Infinity, bounds.min.x) : Random.Range(bounds.max.x, Mathf.Infinity);
-        float y = negativeY ? Random.Range(-Mathf.Infinity, bounds.min.y) : Random.Range(bounds.max.y, Mathf.Infinity);
-        float z = negativeZ ? Random.Range(-Mathf.Infinity, bounds.min.z) : Random.Range(bounds.max.z, Mathf.Infinity);
+        float xMagnitude = Random.Range(0.0f, distanceOutside);
+        float yMagnitude = Random.Range(0.0f, distanceOutside);
+        float zMagnitude = Random.Range(0.0f, distanceOutside);
 
-        Vector3 point = new Vector3(x, y, z);
-        Vector3 pointOnBox = bounds.ClosestPoint(point);
-        Vector3 outwardDirection = (point - pointOnBox).normalized;
+        float x = negativeX ? bounds.min.x - xMagnitude : bounds.max.x + xMagnitude;
+        float y = negativeY ? bounds.min.y - yMagnitude : bounds.max.y + yMagnitude;
+        float z = negativeZ ? bounds.min.z - zMagnitude : bounds.max.z + zMagnitude;
 
-        return pointOnBox + outwardDirection * distanceOutside;
+        return new Vector3(x, y, z);
     }
 
+    // Calculates a random point somewhere at most a distance distanceOutside outside the bounds. The z-value of the point is always 0.
+
     public static Vector3 RandomPointOutsideBounds2d(Bounds bounds, float distanceOutside) {
-        bool negativeX = (Random.Range(0.0f, 1.0f) < 0.5f) ? true : false;
-        bool negativeY = (Random.Range(0.0f, 1.0f) < 0.5f) ? true : false;
+        bool negativeX = (Random.Range(0, 2) == 0) ? true : false;
+        bool negativeY = (Random.Range(0, 2) == 0) ? true : false;
 
-        float x = negativeX ? Random.Range(bounds.min.x - bounds.size.x, bounds.min.x) : Random.Range(bounds.max.x, bounds.max.x + bounds.size.x);
-        float y = negativeY ? Random.Range(bounds.min.y - bounds.size.y, bounds.min.y) : Random.Range(bounds.max.y, bounds.max.y + bounds.size.y);
+        float xMagnitude = Random.Range(0.0f, distanceOutside);
+        float yMagnitude = Random.Range(0.0f, distanceOutside);
 
-        Vector3 point = new Vector3(x, y, 0);
-        Vector3 pointOnBox = bounds.ClosestPoint(point);
-        Vector3 outwardDirection = (point - pointOnBox).normalized;
+        float x = negativeX ? bounds.min.x - xMagnitude : bounds.max.x + xMagnitude;
+        float y = negativeY ? bounds.min.y - yMagnitude : bounds.max.y + yMagnitude;
 
-        return pointOnBox + outwardDirection * distanceOutside;
+        return new Vector3(x, y, 0);
+    }
+
+    public static Vector3 RandomPointInBoundsOutsideBounds(Bounds inner, Bounds outer) {
+        Vector3 result = Vector3.zero;
+
+        do {
+            result = RandomPointInBounds(outer);
+        } while (inner.Contains(result));
+
+        return result;
     }
 }

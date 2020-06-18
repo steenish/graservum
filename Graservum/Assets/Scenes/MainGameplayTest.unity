@@ -4990,6 +4990,54 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &418280072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 418280074}
+  - component: {fileID: 418280073}
+  m_Layer: 0
+  m_Name: BoundsVisualizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &418280073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418280072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b45e3b1e476c0ad45ae525f4a7ed2fbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boundsNames:
+  - MainCamera.CameraController.cameraBounds
+  - AsteroidManager.AsteroidManager.asteroidBounds
+  debugBoundsVis: {fileID: 3888132821626920644, guid: 77804eeecdd1042428b5cb525c487ec6,
+    type: 3}
+--- !u!4 &418280074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418280072}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &499791269
 GameObject:
   m_ObjectHideFlags: 0
@@ -5054,7 +5102,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &508634533
 GameObject:
@@ -5223,7 +5271,7 @@ RectTransform:
   - {fileID: 633921480}
   - {fileID: 2042856394}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5329,7 +5377,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &765448887
 GameObject:
@@ -5516,7 +5564,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &772457324
 MonoBehaviour:
@@ -5530,15 +5578,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92f0b4edd37597a43b83572dd1962344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meanMass: 100
-  massStandardDeviation: 50
+  meanMass: 200
+  massStandardDeviation: 100
   maxNumAsteroids: 10
   maxVelocity: 0.01
-  spawnDistanceOutsideBounds: 10
+  spawnDistanceOutsideBounds: 50
   playerTransform: {fileID: 0}
   asteroidParent: {fileID: 715226114}
   asteroidPrefab: {fileID: 5612927283552800170, guid: 94173247ffb226a4cbcc153c4a94ea28,
     type: 3}
+  springStiffness: 1
 --- !u!1 &980326561
 GameObject:
   m_ObjectHideFlags: 0
@@ -5611,7 +5660,7 @@ Transform:
   m_Children:
   - {fileID: 765448888}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1456152535
 MonoBehaviour:
@@ -5713,8 +5762,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c8857317edee524b8b4a3e88c8d1284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emissionSpeed: 1000
-  maxEmittedMassPerSecondFraction: 0.01
+  emissionSpeed: 100
+  maxEmittedMassPerSecondFraction: 0.2
   timeToMaxValue: 2
   massSlider: {fileID: 2042856395}
   accelerationRate: 2
@@ -5734,7 +5783,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456152533}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.0127282
@@ -5908,7 +5957,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1.0000001}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 31.861002, y: -30.000002, z: 0}
 --- !u!1 &1937134993
 GameObject:
@@ -6066,7 +6115,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2004534536
 MonoBehaviour:
@@ -6080,9 +6129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c600c66a21696d84bb3fd408dbc88e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showDebugBoundsVis: 0
-  debugBoundsVis: {fileID: 3888132821626920644, guid: 77804eeecdd1042428b5cb525c487ec6,
-    type: 3}
 --- !u!1 &2042856393
 GameObject:
   m_ObjectHideFlags: 0

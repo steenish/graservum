@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour {
 
     void Start() {
         playerBounds = Camera.main.GetComponent<CameraController>().cameraBounds;
-        Debug.Log(playerBounds);
 
         _rigidbody = GetComponent<Rigidbody>();
         exhaustColorModule = engineExhaustParticles.colorOverLifetime;
@@ -149,7 +148,7 @@ public class PlayerController : MonoBehaviour {
         // If player is not in bounds, apply spring force to return player to bounds.
         if (!playerBounds.Contains(transform.position)) {
             // Dampen velocity.
-            _rigidbody.velocity *= velocityDampingModifier;
+            //_rigidbody.velocity *= velocityDampingModifier;
 
             // Get normalized direction vector from player to closest point on bounds and scale by spring stiffness.
             Vector3 springForce = springStiffness * Vector3.Normalize(playerBounds.ClosestPoint(transform.position) - transform.position);
