@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
@@ -40,14 +39,17 @@ public class PlayerController : MonoBehaviour {
     private float particleSpeedModifier = 1.0f;
     [SerializeField]
     private float springStiffness = 1.0f;
+#pragma warning disable
     [SerializeField]
-    private float velocityDampingModifier = 1.0f;
+    private Text scoreText;
+#pragma warning restore
 
     private bool currentlyAccelerating;
     private Bounds playerBounds;
     private float accumulatedTime = 0.0f;
     private float massSliderProgress;
     private float onConstant;
+    private float score = 0.0f;
     private Gradient currentGradient;
     private GradientColorKey[] colorKeys;
     private GradientAlphaKey[] alphaKeys;
@@ -78,6 +80,7 @@ public class PlayerController : MonoBehaviour {
 
     void OnDestroy() {
         Debug.Log("Game Over!");
+        GameObject.Find("GameOverText").GetComponentInChildren<Text>(true).enabled = true;
     }
 
     void Update() {
@@ -125,6 +128,9 @@ public class PlayerController : MonoBehaviour {
             engineExhaustParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             exhaustEmissionRateOverTime.constant = 0.0f;
         }
+
+        // Update score text.
+        scoreText.text = ((int) score).ToString();
     }
 
     void FixedUpdate() {
@@ -133,6 +139,9 @@ public class PlayerController : MonoBehaviour {
             // Calculate mass.
             float differentialEmittedMass = massSliderProgress * maxEmittedMassPerSecondFraction * _rigidbody.mass * Time.fixedDeltaTime;
             float newMass = _rigidbody.mass - differentialEmittedMass;
+
+            // Add the emitted mass to the score.
+            score += differentialEmittedMass;
 
             // Get mouse position to target.
             Vector3 targetDirection = GetMouseTargetDirection();
@@ -147,9 +156,6 @@ public class PlayerController : MonoBehaviour {
 
         // If player is not in bounds, apply spring force to return player to bounds.
         if (!playerBounds.Contains(transform.position)) {
-            // Dampen velocity.
-            //_rigidbody.velocity *= velocityDampingModifier;
-
             // Get normalized direction vector from player to closest point on bounds and scale by spring stiffness.
             Vector3 springForce = springStiffness * Vector3.Normalize(playerBounds.ClosestPoint(transform.position) - transform.position);
             _rigidbody.AddForce(springForce);

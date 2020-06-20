@@ -45,17 +45,17 @@ public class BoundsVisualizer : MonoBehaviour {
                         if (boundsObject == null) {
                             System.Reflection.PropertyInfo propertyInfo = boundsComponent.GetType().GetProperty(parts[2]);
                             boundsObject = propertyInfo == null ? null : propertyInfo.GetValue(boundsComponent);
-                        } else Debug.Log("No5");
+                        }
 
                         // If the value is not null and of type Bounds.
                         if (boundsObject != null && boundsObject.GetType() == typeof(Bounds)) {
                             // Add the Bounds to the list.
                             boundsToVisualize.Add((Bounds) boundsObject);
                             boundsToVisualizeNames.Add(parts[2]);
-                        } else Debug.Log("No4");
-                    } else Debug.Log("No3");
-                } else Debug.Log("No2");
-            } else Debug.Log("No1");
+                        }
+                    }
+                }
+            }
         }
 
         // Visualize each Bounds in turn.

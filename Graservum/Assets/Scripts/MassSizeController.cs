@@ -4,11 +4,11 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MassSizeController : MonoBehaviour {
-    // This entire class assumes that all gravity objects are entirely spherical
+    // This entire class assumes that all gravity objects are entirely spherical.
 
     [SerializeField]
-    private float Density = 3.34f; // Density measured in mass units per distance units cubed
-    // Density of the moon: 3.34 kg/m3 (or mass units per distance units cubed)
+    private float Density = 3.34f; // Density measured in mass units per distance units cubed.
+    // Density of the moon: 3.34 kg/m3 (or mass units per distance units cubed).
 
     Rigidbody _rigidbody;
 
