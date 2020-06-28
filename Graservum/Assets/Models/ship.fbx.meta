@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: 2b87ac8d26127b74990d58957334e242
+guid: ae34a23ded02f0c4896cef03c89c6760
 ModelImporter:
-  serializedVersion: 19300
+  serializedVersion: 19301
   internalIDToNameTable: []
   externalObjects: {}
   materials:
@@ -43,6 +43,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1

@@ -18,15 +18,14 @@ public class MassSizeController : MonoBehaviour {
 
     void Update() {
         // Calculate the new scale from the radius depending on mass and density.
-        float mass = _rigidbody.mass;
-        float scale = GetRadius(mass) * 2;
+        float scale = GetRadius() * 2;
 
         // Set the new scale.
         gameObject.transform.localScale = new Vector3(scale, scale, scale);
     }
 
     // Returns the radius of the sphere with the given mass (density is given globally).
-    float GetRadius(float mass) {
-        return Mathf.Pow(3 * mass / (4 * Mathf.PI * Density), 1f / 3f);
+    float GetRadius() {
+        return Mathf.Pow(3 * _rigidbody.mass / (4 * Mathf.PI * Density), 1f / 3f);
     }
 }

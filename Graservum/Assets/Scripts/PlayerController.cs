@@ -8,10 +8,10 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
 
     [SerializeField]
-    private float emissionSpeed = 10.0f;
+    private float emissionSpeed = 100.0f;
 	[SerializeField]
 	[Range(0.01f, 1.0f)]
-	private float maxEmittedMassPerSecondFraction = 0.01f;
+	private float maxEmittedMassPerSecondFraction = 0.2f;
     [SerializeField]
     [Range(1.0f, 10.0f)]
     private float timeToMaxValue = 2.0f;
@@ -25,24 +25,30 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     [Range(1.0f, 5.0f)]
     private float cooldownRate = 2.0f;
-    [SerializeField]
 #pragma warning disable
-    private Transform engineTransform;
+    [SerializeField]
+    private Transform engineTransform; // TODO redo engine control and stuff
+    [SerializeField]
+    private float engineDistanceScaler;
     [SerializeField]
     private ParticleSystem engineExhaustParticles;
     [SerializeField]
     private Color minSpeedColor;
     [SerializeField]
     private Color maxSpeedColor;
-#pragma warning restore
     [SerializeField]
     private float particleSpeedModifier = 1.0f;
+#pragma warning restore
     [SerializeField]
     private float springStiffness = 1.0f;
 #pragma warning disable
     [SerializeField]
     private Text scoreText;
 #pragma warning restore
+
+    [SerializeField]
+    private GameObject _asteroid;
+    public GameObject asteroid { get; private set; }
 
     private bool currentlyAccelerating;
     private Bounds playerBounds;
@@ -173,7 +179,7 @@ public class PlayerController : MonoBehaviour {
     private void MoveEngine() {
         Vector3 targetDirection = GetMouseTargetDirection();
         float angle = Vector3.Angle(Vector3.down, targetDirection);
-        engineTransform.position = transform.position + targetDirection * transform.localScale.x;
+        engineTransform.position = transform.position + targetDirection * engineDistanceScaler * transform.localScale.x;
         engineTransform.localEulerAngles = new Vector3(0.0f, 0.0f, (targetDirection.x < 0) ? 360 - angle : angle);
     }
 }

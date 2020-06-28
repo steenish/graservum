@@ -5,20 +5,22 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MomentumController : MonoBehaviour {
 
+    private MassSizeController massSizeController;
     private Rigidbody _rigidbody;
 
     void Start() {
         _rigidbody = gameObject.GetComponent<Rigidbody>();
+        massSizeController = gameObject.GetComponent<MassSizeController>();
     }
 
     void OnTriggerEnter(Collider other) {
-        Rigidbody otherRigidbody = other.gameObject.GetComponent<Rigidbody>();
+        Rigidbody otherRigidbody = other.attachedRigidbody;
 
         if (otherRigidbody != null) {
             // Check if the other collider is a gravity object.
             if (other.gameObject.layer == LayerMask.NameToLayer("GravityObjects")) {
                 // Check if other asteroid has larger mass.
-                if (other.attachedRigidbody.mass <= _rigidbody.mass) {
+                if (otherRigidbody.mass <= _rigidbody.mass) {
                     // Set new velocity to product of direction and magnitude
                     _rigidbody.velocity = (otherRigidbody.mass * otherRigidbody.velocity + _rigidbody.mass * _rigidbody.velocity) / (otherRigidbody.mass + _rigidbody.mass);
 
@@ -30,6 +32,8 @@ public class MomentumController : MonoBehaviour {
                     Destroy(other.gameObject);
                 }
             }
+        } else {
+            // TODO: Handle player case?
         }
     }
 }
