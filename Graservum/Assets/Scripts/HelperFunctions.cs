@@ -67,7 +67,7 @@ public class HelperFunctions : MonoBehaviour {
     public static Vector3 GetMouseTargetDirection(Transform contextTransform) {
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPos.z = contextTransform.position.z;
-        return contextTransform.InverseTransformPoint(targetPos - contextTransform.position).normalized;
+        return contextTransform.InverseTransformPoint(targetPos).normalized;
     }
 
     // Gets a private property value of obj with name propertyName.
