@@ -64,14 +64,14 @@ public class HelperFunctions : MonoBehaviour {
     }
 
     // Returns normalized direction vector from the transform to the mouse position projected on the plane the object moves in.
-    public static Vector3 GetMouseTargetDirection(Transform contextTransform) {
+    public static Vector3 GetMouseTargetDirection(Vector3 contextPosition) {
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        targetPos.z = contextTransform.position.z;
-        return contextTransform.InverseTransformPoint(targetPos).normalized;
+        targetPos.z = contextPosition.z;
+		return Vector3.Normalize(targetPos - contextPosition);
     }
 
-    // Gets a private property value of obj with name propertyName.
-    public static object GetPrivateProperty(Object obj, string propertyName) {
+	// Gets a private property value of obj with name propertyName.
+	public static object GetPrivateProperty(Object obj, string propertyName) {
         if (obj == null) return null;
         System.Reflection.PropertyInfo propertyInfo = obj.GetType().GetProperty(propertyName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         return propertyInfo == null ? null : propertyInfo.GetValue(obj, null);

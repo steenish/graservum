@@ -32,7 +32,7 @@ public class PlayerPhysicsController : MonoBehaviour
 	[Range(0.01f, 1.0f)]
 	private float maxEmittedMassPerSecondFraction = 0.2f;
 	[SerializeField]
-	private float springStiffness = 1.0f;
+	private float velocityDamping = 1.0f;
 #pragma warning restore
 
 	// --- Public properties ---
@@ -41,11 +41,13 @@ public class PlayerPhysicsController : MonoBehaviour
 
 	// --- Private fields ---
 	private Bounds playerBounds;
+	private float inverseMass;
 	private Rigidbody _rigidbody;
 
 	void Start() {
 		playerBounds = Camera.main.GetComponent<CameraController>().cameraBounds;
 		_rigidbody = GetComponent<Rigidbody>();
+		inverseMass = 1 / _rigidbody.mass;
 	}
 
 	void FixedUpdate() {
@@ -65,22 +67,33 @@ public class PlayerPhysicsController : MonoBehaviour
 		playerInput.score += differentialEmittedMass;
 
 		// Get mouse position to target.
-		Vector3 targetDirection = HelperFunctions.GetMouseTargetDirection(transform);
+		Vector3 targetDirection = HelperFunctions.GetMouseTargetDirection(transform.position);
 
 		// Calculate velocity.
 		Vector3 newVelocity = (_rigidbody.mass * _rigidbody.velocity - differentialEmittedMass * targetDirection * emissionSpeed) / newMass;
 
 		// Apply mass and velocity.
-		_rigidbody.mass = newMass;
+		UpdateMass(newMass);
 		_rigidbody.velocity = newVelocity;
 	}
 
 	private void CheckBounds() {
-		// If player is not in bounds, apply spring force to return player to bounds.
-		if (!playerBounds.Contains(transform.position)) {
-			// Get normalized direction vector from player to closest point on bounds and scale by spring stiffness.
-			Vector3 springForce = springStiffness * Vector3.Normalize(playerBounds.ClosestPoint(transform.position) - transform.position);
-			_rigidbody.AddForce(springForce);
+		// If player is not in bounds, reflect and dampen the player's velocity.
+		if (!playerBounds.Contains(transform.position)) {	
+			// Get the required vectors for calculating reflection vector.
+			Vector3 closestPoint = playerBounds.ClosestPoint(_rigidbody.position);
+			Vector3 reflectionNormal = Vector3.Normalize(closestPoint - _rigidbody.position);
+			Vector3 direction = Vector3.Normalize(_rigidbody.velocity);
+
+			// Set the position to the closestpoint on the bounds and the velocity to the dampened reflection.
+			_rigidbody.position = closestPoint;
+			Vector3 reflection = 2 * Vector3.Dot(reflectionNormal, -direction) * reflectionNormal + direction;
+			_rigidbody.velocity = reflection * _rigidbody.velocity.magnitude * velocityDamping;
 		}
+	}
+
+	private void UpdateMass(float newMass) {
+		_rigidbody.mass = newMass;
+		inverseMass = 1 / newMass;
 	}
 }

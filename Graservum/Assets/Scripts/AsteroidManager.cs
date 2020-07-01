@@ -26,8 +26,6 @@ public class AsteroidManager : MonoBehaviour {
     [SerializeField]
     private GameObject asteroidPrefab;
 #pragma warning restore
-    [SerializeField]
-    private float springStiffness = 1.0f;
 
     private Bounds asteroidBounds { get; set; }
     private Bounds cameraBounds;
@@ -67,8 +65,18 @@ public class AsteroidManager : MonoBehaviour {
         // Do bounds checking and apply spring forces.
         foreach (GameObject asteroid in HelperFunctions.FindGameObjectsOnLayer("GravityObjects")) {
             if (!asteroidBounds.Contains(asteroid.transform.position)) {
-                asteroid.GetComponent<Rigidbody>().AddForce(springStiffness * Vector3.Normalize(asteroidBounds.ClosestPoint(asteroid.transform.position) - asteroid.transform.position));
-            }
+				Rigidbody asteroidRigidbody = asteroid.GetComponent<Rigidbody>();
+				
+				// Get the required vectors for calculating reflection vector.
+				Vector3 closestPoint = asteroidBounds.ClosestPoint(asteroidRigidbody.position);
+				Vector3 reflectionNormal = Vector3.Normalize(closestPoint - asteroidRigidbody.position);
+				Vector3 direction = Vector3.Normalize(asteroidRigidbody.velocity);
+
+				// Set the position to the closestpoint on the bounds and the velocity to the dampened reflection.
+				asteroidRigidbody.position = closestPoint;
+				Vector3 reflection = 2 * Vector3.Dot(reflectionNormal, -direction) * reflectionNormal + direction;
+				asteroidRigidbody.velocity = reflection * asteroidRigidbody.velocity.magnitude;
+			}
         }
     }
 

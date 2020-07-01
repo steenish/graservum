@@ -41,12 +41,17 @@ public class PlayerInput : MonoBehaviour {
     // --- Private fields ---
 
     private float accumulatedTime = 0.0f;
+	private Rigidbody asteroidRigidbody;
 
     void OnDestroy() {
         Debug.Log("Game Over!");
     }
 
-    void Update() {
+	void Start() {
+		asteroidRigidbody = playerAsteroid.GetComponent<Rigidbody>();
+	}
+
+	void Update() {
 
         // Check for new clicks, start slider timer.
         if (Input.GetMouseButtonDown(0)) {
@@ -76,5 +81,8 @@ public class PlayerInput : MonoBehaviour {
         if (scoreText != null) {
             scoreText.text = ((int) score).ToString();
         }
-    }
+
+		// Move the ship according to playerAsteroid position.
+		engineController.transform.parent.position = asteroidRigidbody.position;
+	}
 }
