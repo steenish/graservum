@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2642892573709861338}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 2642892574787814051}
   m_Father: {fileID: 259760781079193866}
@@ -5002,6 +5002,8 @@ MonoBehaviour:
   _burnSlider: {fileID: 2642892573783010508}
   timeToMaxValue: 2
   scoreText: {fileID: 0}
+  maxAsteroidMass: 10000
+  gameOverText: {fileID: 0}
 --- !u!1 &8009885119660110350
 GameObject:
   m_ObjectHideFlags: 0

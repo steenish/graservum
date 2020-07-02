@@ -10,10 +10,6 @@ public class AsteroidManager : MonoBehaviour {
     [SerializeField]
     private float massStandardDeviation;
     [SerializeField]
-    private float minMass;
-    [SerializeField]
-    private float massLossRatio = 1.0f;
-    [SerializeField]
     private int maxNumAsteroids;
     [SerializeField]
     private float maxVelocity;
@@ -43,17 +39,6 @@ public class AsteroidManager : MonoBehaviour {
         // Spawn one asteroid per frame if the maximum number of asteroids has not been reached.
         if (currentNumAsteroids < maxNumAsteroids) {
             SpawnAsteroid();
-        }
-
-        // Decrease the mass of each asteroid by the given ratio, and destroy if it goes below the threshold.
-        foreach (GameObject asteroid in HelperFunctions.FindGameObjectsOnLayer("GravityObjects")) {
-            Rigidbody rb = asteroid.GetComponent<Rigidbody>();
-            rb.mass *= massLossRatio;
-
-            if (rb.mass < minMass) {
-                Destroy(asteroid);
-                AsteroidDestroyed();
-            }
         }
     }
 

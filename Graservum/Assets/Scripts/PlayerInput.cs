@@ -32,6 +32,11 @@ public class PlayerInput : MonoBehaviour {
     private float timeToMaxValue = 2.0f;
     [SerializeField]
     private Text scoreText;
+	[SerializeField]
+	[Range(0.0f, 100000.0f)]
+	private float maxAsteroidMass = 10000.0f;
+	[SerializeField]
+	private GameObject gameOverText;
 #pragma warning restore
 
     // --- Public properties ---
@@ -44,6 +49,7 @@ public class PlayerInput : MonoBehaviour {
 	private Rigidbody asteroidRigidbody;
 
     void OnDestroy() {
+		gameOverText.SetActive(true);
         Debug.Log("Game Over!");
     }
 
@@ -52,6 +58,10 @@ public class PlayerInput : MonoBehaviour {
 	}
 
 	void Update() {
+		//Check if the player asteroid's mass has exceeded the maximum.
+		if (asteroidRigidbody.mass > maxAsteroidMass) {
+			Destroy(gameObject);
+		}
 
         // Check for new clicks, start slider timer.
         if (Input.GetMouseButtonDown(0)) {
