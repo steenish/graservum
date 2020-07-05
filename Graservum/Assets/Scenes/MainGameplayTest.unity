@@ -223,7 +223,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 418280072}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b45e3b1e476c0ad45ae525f4a7ed2fbc, type: 3}
   m_Name: 
@@ -647,7 +647,7 @@ MonoBehaviour:
   maxNumAsteroids: 5
   maxVelocity: 10
   spawnDistanceOutsideBounds: 50
-  boundsForceMagnitude: 1
+  boundsForceMagnitude: 1000
   playerTransform: {fileID: 0}
   asteroidParent: {fileID: 715226114}
   asteroidPrefab: {fileID: 5612927283552800170, guid: 94173247ffb226a4cbcc153c4a94ea28,

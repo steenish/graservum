@@ -24,17 +24,19 @@ public class PlayerInput : MonoBehaviour {
     private EasySlider _burnSlider;
     public EasySlider burnSlider { get => _burnSlider; private set => _burnSlider = value; }
 
-    // --- Inspector-exposed private fields ---
+	[SerializeField]
+	[Range(0.0f, 100000.0f)]
+	private float _maxAsteroidMass = 10000.0f;
+	public float maxAsteroidMass { get => _maxAsteroidMass; private set => _maxAsteroidMass = value; }
+
+	// --- Inspector-exposed private fields ---
 
 #pragma warning disable
-    [SerializeField]
+	[SerializeField]
     [Range(1.0f, 10.0f)]
     private float timeToMaxValue = 2.0f;
     [SerializeField]
     private Text scoreText;
-	[SerializeField]
-	[Range(0.0f, 100000.0f)]
-	private float maxAsteroidMass = 10000.0f;
 	[SerializeField]
 	private GameObject gameOverText;
 #pragma warning restore

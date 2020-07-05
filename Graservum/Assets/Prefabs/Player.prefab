@@ -5000,9 +5000,9 @@ MonoBehaviour:
   _engineController: {fileID: 2642892574787814050}
   _playerPhysicsController: {fileID: 8009885119660110349}
   _burnSlider: {fileID: 2642892573783010508}
+  _maxAsteroidMass: 1000
   timeToMaxValue: 2
   scoreText: {fileID: 0}
-  maxAsteroidMass: 10000
   gameOverText: {fileID: 0}
 --- !u!1 &8009885119660110350
 GameObject:
@@ -5159,4 +5159,4 @@ MonoBehaviour:
   playerInput: {fileID: 2642892573783010509}
   emissionSpeed: 100
   maxEmittedMassPerSecondFraction: 0.2
-  velocityDamping: 0.7
+  velocityDamping: 0.4
