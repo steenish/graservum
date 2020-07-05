@@ -38,9 +38,9 @@ public class PlayerPhysicsController : MonoBehaviour
 	// --- Public properties ---
 
 	public bool currentlyAccelerating { get; set; } = false;
+	public Bounds playerBounds { get; private set; }
 
 	// --- Private fields ---
-	private Bounds playerBounds;
 	private float inverseMass;
 	private Rigidbody _rigidbody;
 

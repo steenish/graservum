@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class AsteroidManager : MonoBehaviour {
 
+	public Bounds asteroidBounds { get; private set; }
+
 #pragma warning disable
-    [SerializeField]
+	[SerializeField]
     private float meanMass;
     [SerializeField]
     private float massStandardDeviation;
@@ -15,6 +17,8 @@ public class AsteroidManager : MonoBehaviour {
     private float maxVelocity;
     [SerializeField]
     private float spawnDistanceOutsideBounds;
+	[SerializeField]
+	private float boundsForceMagnitude = 1.0f;
     [SerializeField]
     private Transform playerTransform;
     [SerializeField]
@@ -23,9 +27,8 @@ public class AsteroidManager : MonoBehaviour {
     private GameObject asteroidPrefab;
 #pragma warning restore
 
-    private Bounds asteroidBounds { get; set; }
     private Bounds cameraBounds;
-    private float zValue;
+	private float zValue;
     private int currentNumAsteroids;
 
     void Start() {
@@ -47,11 +50,11 @@ public class AsteroidManager : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        // Do bounds checking and apply spring forces.
         foreach (GameObject asteroid in HelperFunctions.FindGameObjectsOnLayer("GravityObjects")) {
-            if (!asteroidBounds.Contains(asteroid.transform.position)) {
-				Rigidbody asteroidRigidbody = asteroid.GetComponent<Rigidbody>();
-				
+			Rigidbody asteroidRigidbody = asteroid.GetComponent<Rigidbody>();
+
+			// Do asteroid bounds checking to reflect the velocity.
+			if (!asteroidBounds.Contains(asteroid.transform.position)) {
 				// Get the required vectors for calculating reflection vector.
 				Vector3 closestPoint = asteroidBounds.ClosestPoint(asteroidRigidbody.position);
 				Vector3 reflectionNormal = Vector3.Normalize(closestPoint - asteroidRigidbody.position);
@@ -62,10 +65,16 @@ public class AsteroidManager : MonoBehaviour {
 				Vector3 reflection = 2 * Vector3.Dot(reflectionNormal, -direction) * reflectionNormal + direction;
 				asteroidRigidbody.velocity = reflection * asteroidRigidbody.velocity.magnitude;
 			}
-        }
-    }
 
-    private void SpawnAsteroid() {
+			// Do player bounds checking and apply constant force.
+			if (!cameraBounds.Contains(asteroid.transform.position)) {
+				Vector3 force = boundsForceMagnitude * Vector3.Normalize(cameraBounds.ClosestPoint(asteroidRigidbody.position) - asteroidRigidbody.position);
+				asteroidRigidbody.AddForce(force);
+			}
+		}
+	}
+
+	private void SpawnAsteroid() {
         currentNumAsteroids++;
 
         Vector3 position = HelperFunctions.RandomPointInBoundsOutsideBounds(cameraBounds, asteroidBounds);

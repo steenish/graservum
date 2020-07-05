@@ -215,7 +215,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &418280073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,6 +647,7 @@ MonoBehaviour:
   maxNumAsteroids: 5
   maxVelocity: 10
   spawnDistanceOutsideBounds: 50
+  boundsForceMagnitude: 1
   playerTransform: {fileID: 0}
   asteroidParent: {fileID: 715226114}
   asteroidPrefab: {fileID: 5612927283552800170, guid: 94173247ffb226a4cbcc153c4a94ea28,
