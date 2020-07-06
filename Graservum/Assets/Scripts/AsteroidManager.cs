@@ -45,7 +45,11 @@ public class AsteroidManager : MonoBehaviour {
         }
     }
 
-    public void AsteroidDestroyed() {
+	public void AsteroidCreated() {
+		currentNumAsteroids++;
+	}
+
+	public void AsteroidDestroyed() {
         currentNumAsteroids--;
     }
 
@@ -84,5 +88,7 @@ public class AsteroidManager : MonoBehaviour {
         rigidbody.mass = HelperFunctions.GenerateGaussian(meanMass, massStandardDeviation);
         rigidbody.velocity = Vector3.Normalize(cameraBounds.ClosestPoint(position) - position) * Random.Range(1.0f, maxVelocity);
         rigidbody.angularVelocity = new Vector3(Random.Range(0.0f, Mathf.PI), Random.Range(0.0f, Mathf.PI), Random.Range(0.0f, Mathf.PI));
-    }
+
+		newAsteroid.GetComponentInChildren<WarningSpriteController>().asteroidManager = this;
+	}
 }
