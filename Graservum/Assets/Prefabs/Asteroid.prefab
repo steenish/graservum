@@ -210,7 +210,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 794f8b2f562db04428a963e76150edd1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a63b24d20f716b14db3f5d1e6947f565, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -252,7 +252,11 @@ MonoBehaviour:
   parentAsteroid: {fileID: 5612927283552800170}
   playerInput: {fileID: 2642892573783010509, guid: 335918355b9063a498285558f296192e,
     type: 3}
+  smallWarningSprite: {fileID: 21300000, guid: a63b24d20f716b14db3f5d1e6947f565, type: 3}
+  criticalWarningSprite: {fileID: 21300000, guid: 794f8b2f562db04428a963e76150edd1,
+    type: 3}
   spriteRenderer: {fileID: 7413441857815314245}
+  collider: {fileID: 8851156437245972262}
   asteroidPrefab: {fileID: 5612927283552800170}
   newAsteroidSpeed: 20
   outsideDistanceModifier: 1

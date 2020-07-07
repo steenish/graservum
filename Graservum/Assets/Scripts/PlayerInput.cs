@@ -82,10 +82,12 @@ public class PlayerInput : MonoBehaviour {
         float progress = accumulatedTime / timeToMaxValue * burnSlider.maximumValue;
         burnSlider.sliderValue = progress;
 
+		playerPhysicsController.currentlyAccelerating = burnSlider.sliderValue > burnSlider.minimumValue;
+
         // Check for mouse button release, set emission flag and reset slider.
-        if (Input.GetMouseButtonUp(0)) {
-            playerPhysicsController.currentlyAccelerating = false;
-        }
+        //if (Input.GetMouseButtonUp(0)) {
+        //    playerPhysicsController.currentlyAccelerating = false;
+        //}
 
         engineController.UpdateEngine();
 

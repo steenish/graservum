@@ -10,9 +10,13 @@ public class WarningSpriteController : MonoBehaviour {
 	[SerializeField]
 	private GameObject parentAsteroid;
 	[SerializeField]
-	private PlayerInput playerInput;
+	private Sprite smallWarningSprite;
+	[SerializeField]
+	private Sprite criticalWarningSprite;
 	[SerializeField]
 	private SpriteRenderer spriteRenderer;
+	[SerializeField]
+	private CircleCollider2D collider;
 	[SerializeField]
 	private GameObject asteroidPrefab;
 	[SerializeField]
@@ -29,37 +33,54 @@ public class WarningSpriteController : MonoBehaviour {
 	private Vector3 toScale;
 #pragma warning disable
 
+	private bool isCriticalWarning = false;
 	private bool isActive = false;
 	private Color fromColor;
 	private float activationMass;
 	private float interpolationParameter = 0.0f; // 0 means nothing has happened, 1 means interpolation is complete.
 	private int interpolationDirection = 1;
-	private Rigidbody asteroidRigidbody;
+	private PlayerInput playerInput;
+	private Rigidbody parentAsteroidRigidbody;
+	private Rigidbody playerAsteroidRigidbody;
 	private Vector3 fromScale;
 	private Vector3 offsetVector;
 
 	void Start() {
-		asteroidRigidbody = parentAsteroid.GetComponent<Rigidbody>();
+		parentAsteroidRigidbody = parentAsteroid.GetComponent<Rigidbody>();
+		playerInput = GameObject.Find("Player")?.GetComponent<PlayerInput>();
+		playerAsteroidRigidbody = playerInput?.playerAsteroid.GetComponent<Rigidbody>();
 
 		fromColor = spriteRenderer.color;
 		fromScale = transform.localScale;
-		activationMass = playerInput.maxAsteroidMass;
+		activationMass = (playerInput != null) ? playerInput.maxAsteroidMass : Mathf.Infinity;
 		offsetVector = new Vector3(0.0f, 0.0f, zOffset);
 
 		spriteRenderer.enabled = false;
+		collider.enabled = false;
     }
 
     void Update() {
 		// Update rotation and offset.
 		transform.rotation = Quaternion.identity;
 		transform.position = parentAsteroid.transform.position + offsetVector * parentAsteroid.transform.localScale.x;
+		
+		// If the sum of the parent asteroid's mass and the player asteroid's mass is greater than the activation mass, set isActive.
+		isActive = ((playerAsteroidRigidbody != null) ? playerAsteroidRigidbody.mass : 0) + parentAsteroidRigidbody.mass > activationMass;
+	
+		// If the parent asteroid's mass itself is greater than the activation mass, set criticalWarning.
+		isCriticalWarning = parentAsteroidRigidbody.mass > activationMass;
 
-		// If the parent asteroid's mass is greater than the activation mass, set isActive.
-		isActive = asteroidRigidbody.mass > activationMass;
+		// Pick sprite depending on type of warning.
+		if (isCriticalWarning) {
+			spriteRenderer.sprite = criticalWarningSprite;
+		} else {
+			spriteRenderer.sprite = smallWarningSprite;
+		}
 
 		if (isActive) {
-			// Enable sprite renderer.
+			// Enable sprite renderer and collider.
 			spriteRenderer.enabled = true;
+			collider.enabled = true;
 
 			// Update interpolation parameter.
 			// Turn interpolation direction.
@@ -67,10 +88,12 @@ public class WarningSpriteController : MonoBehaviour {
 				interpolationDirection *= -1;
 			}
 			interpolationParameter += interpolationDirection * pulseSpeed * Time.deltaTime;
+			interpolationParameter = Mathf.Clamp(interpolationParameter, 0.0f, 1.0f);
 
 			// Update pulse status.
 			SetAnimation(interpolationParameter);
 		} else {
+			spriteRenderer.enabled = false;
 			spriteRenderer.enabled = false;
 		}
     }
@@ -84,21 +107,23 @@ public class WarningSpriteController : MonoBehaviour {
 	}
 
 	private void OnMouseDown() {
-		SplitParentAsteroid();
+		if (isCriticalWarning) {
+			SplitParentAsteroid();
+		}
 	}
 
 	// Destroys this asteroid and creates two new asteroids.
 	private void SplitParentAsteroid() {
 		// Find direction for velocities added to new asteroids.
-		Vector3 directionToPlayer = Vector3.Normalize(parentAsteroid.transform.position - playerInput.transform.position);
+		Vector3 directionToPlayer = Vector3.Normalize(parentAsteroid.transform.position - ((playerInput != null) ? playerInput.playerAsteroid.transform.position : Vector3.zero));
 		// New velocity is perpendicular to direction to player plus the velocity of the original asteroid.
 		Vector3 perpendicularVelocity = Vector3.Cross(directionToPlayer, Vector3.back) * newAsteroidSpeed;
 
 		// Asteroids have equal momentum, but half the original mass, so they both get the original velocity.
 		// p = p/2 + p/2 = mv/2 + mv/2 = v(m/2) + v(m/2)
-		float newMass = asteroidRigidbody.mass / 2;
-		Vector3 newVelocity1 = asteroidRigidbody.velocity + perpendicularVelocity;
-		Vector3 newVelocity2 = asteroidRigidbody.velocity - perpendicularVelocity;
+		float newMass = parentAsteroidRigidbody.mass / 2;
+		Vector3 newVelocity1 = parentAsteroidRigidbody.velocity + perpendicularVelocity;
+		Vector3 newVelocity2 = parentAsteroidRigidbody.velocity - perpendicularVelocity;
 
 		// Instantiate the new asteroids outside the original asteroid along their new velocities.
 		Transform asteroidParent = GameObject.Find("AsteroidParent").transform;
@@ -114,12 +139,12 @@ public class WarningSpriteController : MonoBehaviour {
 		Rigidbody newRigidbody1 = newAsteroid1.GetComponent<Rigidbody>();
 		newRigidbody1.mass = newMass;
 		newRigidbody1.velocity = newVelocity1;
-		newRigidbody1.angularVelocity = asteroidRigidbody.angularVelocity;
+		newRigidbody1.angularVelocity = parentAsteroidRigidbody.angularVelocity;
 
 		Rigidbody newRigidbody2 = newAsteroid2.GetComponent<Rigidbody>();
 		newRigidbody2.mass = newMass;
 		newRigidbody2.velocity = newVelocity2;
-		newRigidbody2.angularVelocity = -asteroidRigidbody.angularVelocity;
+		newRigidbody2.angularVelocity = -parentAsteroidRigidbody.angularVelocity;
 
 		// Destroy the parent asteroid.
 		Destroy(parentAsteroid);
