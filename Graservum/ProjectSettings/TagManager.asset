@@ -41,9 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UI
-    uniqueID: 329651925
-    locked: 0
   - name: Background
     uniqueID: 3332456809
+    locked: 0
+  - name: Sprites
+    uniqueID: 3756419351
+    locked: 0
+  - name: Effects
+    uniqueID: 556435835
+    locked: 0
+  - name: UI
+    uniqueID: 329651925
     locked: 0

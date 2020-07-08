@@ -4808,8 +4808,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 556435835
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_RenderMode: 0
   m_SortMode: 0
@@ -5003,7 +5003,7 @@ MonoBehaviour:
   _maxAsteroidMass: 1000
   timeToMaxValue: 2
   scoreText: {fileID: 0}
-  gameOverText: {fileID: 0}
+  gameOverUI: {fileID: 0}
 --- !u!1 &8009885119660110350
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,7 +38,7 @@ public class PlayerInput : MonoBehaviour {
     [SerializeField]
     private Text scoreText;
 	[SerializeField]
-	private GameObject gameOverText;
+	private GameObject gameOverUI;
 #pragma warning restore
 
     // --- Public properties ---
@@ -51,7 +51,7 @@ public class PlayerInput : MonoBehaviour {
 	private Rigidbody asteroidRigidbody;
 
     void OnDestroy() {
-		gameOverText.SetActive(true);
+		gameOverUI.SetActive(true);
         Debug.Log("Game Over!");
     }
 

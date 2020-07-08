@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class WarningSpriteController : MonoBehaviour {
+public class WarningSpriteController : MonoBehaviour, IPointerClickHandler {
 
 	public AsteroidManager asteroidManager { get; set; }
 
@@ -105,8 +106,8 @@ public class WarningSpriteController : MonoBehaviour {
 		// Interpolate scale according to parameter.
 		transform.localScale = Vector3.Lerp(fromScale, toScale, parameter);
 	}
-
-	private void OnMouseDown() {
+	
+	public void OnPointerClick(PointerEventData eventData) {
 		if (isCriticalWarning) {
 			SplitParentAsteroid();
 		}
@@ -119,11 +120,15 @@ public class WarningSpriteController : MonoBehaviour {
 		// New velocity is perpendicular to direction to player plus the velocity of the original asteroid.
 		Vector3 perpendicularVelocity = Vector3.Cross(directionToPlayer, Vector3.back) * newAsteroidSpeed;
 
+		// Project the parent asteroid's velocity on the direction to the player.
+		// Using this component of the velocity ensures more beautiful splits.
+		Vector3 projectedVelocity = Vector3.Project(parentAsteroidRigidbody.velocity, directionToPlayer);
+
 		// Asteroids have equal momentum, but half the original mass, so they both get the original velocity.
 		// p = p/2 + p/2 = mv/2 + mv/2 = v(m/2) + v(m/2)
 		float newMass = parentAsteroidRigidbody.mass / 2;
-		Vector3 newVelocity1 = parentAsteroidRigidbody.velocity + perpendicularVelocity;
-		Vector3 newVelocity2 = parentAsteroidRigidbody.velocity - perpendicularVelocity;
+		Vector3 newVelocity1 = projectedVelocity + perpendicularVelocity;
+		Vector3 newVelocity2 = projectedVelocity - perpendicularVelocity;
 
 		// Instantiate the new asteroids outside the original asteroid along their new velocities.
 		Transform asteroidParent = GameObject.Find("AsteroidParent").transform;
