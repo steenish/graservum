@@ -3,7 +3,22 @@ guid: 8563ba06ab6867844b30feea02d45987
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EngineBlack.001
+    second: {fileID: 2100000, guid: 59c0422fd3343a64aa2f289d98d0aa17, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EngineMetal.001
+    second: {fileID: 2100000, guid: c6564a94df8d3ee4c89b2a26b31348c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Supports
+    second: {fileID: 2100000, guid: cb88998a8f22c4c48b76daba362f1369, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
