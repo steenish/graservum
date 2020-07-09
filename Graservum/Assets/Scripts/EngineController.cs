@@ -50,9 +50,9 @@ public class EngineController : MonoBehaviour {
         UpdateParticles();
     }
 
-    // Moves the engine to the appropriate position according to mouse position.
+    // Moves the engine to the appropriate position according to joystick direction.
     private void MoveEngine() {
-		Vector3 targetDirection = HelperFunctions.GetMouseTargetDirection(playerInput.playerAsteroid.transform.position);
+		Vector3 targetDirection = playerInput.joyStick.direction;
 		float angle = Vector3.Angle(Vector3.down, targetDirection);
 		transform.localPosition = Vector3.zero + targetDirection * transform.localScale.x * engineDistanceScaler;
 		transform.localEulerAngles = new Vector3(0.0f, 0.0f, (targetDirection.x < 0) ? 360 - angle : angle);

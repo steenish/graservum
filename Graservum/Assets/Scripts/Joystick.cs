@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
-    public Vector3 joyStickDirection { get; private set; }
+    public Vector3 direction { get; private set; }
 
 #pragma warning disable
     [SerializeField]
@@ -14,7 +14,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField]
     private Color grabColor;
     [SerializeField]
-    private float maxDistance = 1.0f;
+    private float distanceScaler = 1.0f;
 #pragma warning restore
 
     private bool isDragging;
@@ -27,9 +27,9 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     void Update() {
         if (isDragging) {
             Vector3 targetVector = HelperFunctions.GetMouseTargetDirectionRaw(transform.parent.position);
-            float distance = Mathf.Clamp(targetVector.magnitude, 0, transform.parent.localScale.x);
+            float distance = Mathf.Clamp(targetVector.magnitude, 0, transform.parent.localScale.x * distanceScaler);
             transform.position = transform.parent.position + targetVector.normalized * distance;
-            joyStickDirection = targetVector.normalized;
+            direction = targetVector.normalized;
         }
     }
 

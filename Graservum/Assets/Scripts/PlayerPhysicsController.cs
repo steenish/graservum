@@ -66,8 +66,8 @@ public class PlayerPhysicsController : MonoBehaviour
 		// Add the emitted mass to the score.
 		playerInput.score += differentialEmittedMass;
 
-		// Get mouse position to target.
-		Vector3 targetDirection = HelperFunctions.GetMouseTargetDirection(transform.position);
+		// Get joystick direction.
+		Vector3 targetDirection = playerInput.joyStick.direction;
 
 		// Calculate velocity.
 		Vector3 newVelocity = (_rigidbody.mass * _rigidbody.velocity - differentialEmittedMass * targetDirection * emissionSpeed) / newMass;

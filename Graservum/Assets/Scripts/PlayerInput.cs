@@ -21,6 +21,10 @@ public class PlayerInput : MonoBehaviour {
     public PlayerPhysicsController playerPhysicsController { get => _playerPhysicsController; private set => _playerPhysicsController = value; }
 
     [SerializeField]
+    private Joystick _joyStick;
+    public Joystick joyStick { get => _joyStick; private set => _joyStick = value; }
+
+    [SerializeField]
     private EasySlider _burnSlider;
     public EasySlider burnSlider { get => _burnSlider; private set => _burnSlider = value; }
 
@@ -29,7 +33,7 @@ public class PlayerInput : MonoBehaviour {
 	private float _maxAsteroidMass = 10000.0f;
 	public float maxAsteroidMass { get => _maxAsteroidMass; private set => _maxAsteroidMass = value; }
 
-	// --- Inspector-exposed private fields ---
+    // --- Inspector-exposed private fields ---
 
 #pragma warning disable
 	[SerializeField]
