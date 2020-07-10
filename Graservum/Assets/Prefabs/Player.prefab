@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 370212149160366118, guid: ae34a23ded02f0c4896cef03c89c6760, type: 3}
+  - {fileID: 2100000, guid: 7ab38bdc17046034b8ba4eaaec2b7e1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4894,9 +4894,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3357553744796032398, guid: 8563ba06ab6867844b30feea02d45987, type: 3}
-  - {fileID: -9111237466802964619, guid: 8563ba06ab6867844b30feea02d45987, type: 3}
-  - {fileID: -732794657797922598, guid: 8563ba06ab6867844b30feea02d45987, type: 3}
+  - {fileID: 2100000, guid: c6564a94df8d3ee4c89b2a26b31348c4, type: 2}
+  - {fileID: 2100000, guid: 59c0422fd3343a64aa2f289d98d0aa17, type: 2}
+  - {fileID: 2100000, guid: cb88998a8f22c4c48b76daba362f1369, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4999,6 +4999,7 @@ MonoBehaviour:
   _playerAsteroid: {fileID: 8009885119660110350}
   _engineController: {fileID: 2642892574787814050}
   _playerPhysicsController: {fileID: 8009885119660110349}
+  _joystick: {fileID: 0}
   _burnSlider: {fileID: 2642892573783010508}
   _maxAsteroidMass: 1000
   timeToMaxValue: 2
@@ -5067,7 +5068,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1028975969894098647, guid: de76a2d86de8e78459b0f23d8f0f1a07, type: 3}
+  - {fileID: 2100000, guid: 91d10417bb12a694b8385422c5ec2beb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

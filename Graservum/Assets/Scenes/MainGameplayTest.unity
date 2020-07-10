@@ -584,11 +584,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2642892573709861336, guid: 335918355b9063a498285558f296192e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 7ab38bdc17046034b8ba4eaaec2b7e1d, type: 2}
     - target: {fileID: 2642892573783010509, guid: 335918355b9063a498285558f296192e,
         type: 3}
       propertyPath: scoreText
@@ -619,31 +614,11 @@ PrefabInstance:
       propertyPath: _joystick
       value: 
       objectReference: {fileID: 1530238477}
-    - target: {fileID: 2642892574787814049, guid: 335918355b9063a498285558f296192e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: c6564a94df8d3ee4c89b2a26b31348c4, type: 2}
-    - target: {fileID: 2642892574787814049, guid: 335918355b9063a498285558f296192e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 59c0422fd3343a64aa2f289d98d0aa17, type: 2}
-    - target: {fileID: 2642892574787814049, guid: 335918355b9063a498285558f296192e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[2]
-      value: 
-      objectReference: {fileID: 2100000, guid: cb88998a8f22c4c48b76daba362f1369, type: 2}
     - target: {fileID: 7586436079482828257, guid: 335918355b9063a498285558f296192e,
         type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8180798795555699977, guid: 335918355b9063a498285558f296192e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 91d10417bb12a694b8385422c5ec2beb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 335918355b9063a498285558f296192e, type: 3}
 --- !u!1 &772457322
