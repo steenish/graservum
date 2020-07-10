@@ -6,9 +6,11 @@ using UnityEngine.UI;
 
 public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
-    public Vector3 direction { get; private set; }
+    public Vector3 direction { get; private set; } = Vector3.down;
 
 #pragma warning disable
+    [SerializeField]
+    private GameObject stick;
     [SerializeField]
     private Image sprite;
     [SerializeField]
@@ -26,11 +28,22 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     
     void Update() {
         if (isDragging) {
-            Vector3 targetVector = HelperFunctions.GetMouseTargetDirectionRaw(transform.parent.position);
-            float distance = Mathf.Clamp(targetVector.magnitude, 0, transform.parent.localScale.x * distanceScaler);
-            transform.position = transform.parent.position + targetVector.normalized * distance;
+            // Get direction to pointer from joystick.
+            Vector3 targetVector = HelperFunctions.GetMouseTargetDirectionRaw(transform.position);
+
+            // Calculate the distance to pointer from joystick, clamped to the maximum distance.
+            float distance = Mathf.Clamp(targetVector.magnitude, 0, transform.localScale.x * distanceScaler);
+
+            // Move the stick.
+            stick.transform.position = transform.position + targetVector.normalized * distance;
+
+            // Update normalized joystick direction.
             direction = targetVector.normalized;
         }
+    }
+
+    public bool GetInput() {
+        return isDragging;
     }
 
     public void OnPointerDown(PointerEventData eventData) {
@@ -41,6 +54,6 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     public void OnPointerUp(PointerEventData eventData) {
         sprite.color = releaseColor;
         isDragging = false;
-        transform.position = transform.parent.position;
+        stick.transform.position = transform.position;
     }
 }

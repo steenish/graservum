@@ -21,8 +21,8 @@ public class PlayerInput : MonoBehaviour {
     public PlayerPhysicsController playerPhysicsController { get => _playerPhysicsController; private set => _playerPhysicsController = value; }
 
     [SerializeField]
-    private Joystick _joyStick;
-    public Joystick joyStick { get => _joyStick; private set => _joyStick = value; }
+    private Joystick _joystick;
+    public Joystick joystick { get => _joystick; private set => _joystick = value; }
 
     [SerializeField]
     private EasySlider _burnSlider;
@@ -69,13 +69,13 @@ public class PlayerInput : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
-        // Check for new clicks, start slider timer.
-        if (Input.GetMouseButtonDown(0)) {
+        // Check for joystick input, start slider timer.
+        if (joystick.GetInput()) {
             playerPhysicsController.currentlyAccelerating = true;
         }
 
-        // Check for mouse held, update the accumulated time.
-        if (Input.GetMouseButton(0)) {
+        // Check for joystick held, update the accumulated time.
+        if (joystick.GetInput()) {
             accumulatedTime += Time.deltaTime * playerPhysicsController.accelerationRate;
         } else {
             accumulatedTime -= Time.deltaTime * playerPhysicsController.cooldownRate;
@@ -87,11 +87,6 @@ public class PlayerInput : MonoBehaviour {
         burnSlider.sliderValue = progress;
 
 		playerPhysicsController.currentlyAccelerating = burnSlider.sliderValue > burnSlider.minimumValue;
-
-        // Check for mouse button release, set emission flag and reset slider.
-        //if (Input.GetMouseButtonUp(0)) {
-        //    playerPhysicsController.currentlyAccelerating = false;
-        //}
 
         engineController.UpdateEngine();
 

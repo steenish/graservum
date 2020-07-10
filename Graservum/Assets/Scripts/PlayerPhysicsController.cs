@@ -67,7 +67,7 @@ public class PlayerPhysicsController : MonoBehaviour
 		playerInput.score += differentialEmittedMass;
 
 		// Get joystick direction.
-		Vector3 targetDirection = playerInput.joyStick.direction;
+		Vector3 targetDirection = playerInput.joystick.direction;
 
 		// Calculate velocity.
 		Vector3 newVelocity = (_rigidbody.mass * _rigidbody.velocity - differentialEmittedMass * targetDirection * emissionSpeed) / newMass;
