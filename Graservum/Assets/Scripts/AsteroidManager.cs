@@ -72,7 +72,7 @@ public class AsteroidManager : MonoBehaviour {
 
 			// Do player bounds checking and apply constant force.
 			if (!cameraBounds.Contains(asteroid.transform.position)) {
-				Vector3 force = boundsForceMagnitude * Vector3.Normalize(cameraBounds.ClosestPoint(asteroidRigidbody.position) - asteroidRigidbody.position);
+				Vector3 force = Time.fixedDeltaTime * asteroidRigidbody.mass * boundsForceMagnitude * Vector3.Normalize(cameraBounds.ClosestPoint(asteroidRigidbody.position) - asteroidRigidbody.position);
 				asteroidRigidbody.AddForce(force);
 			}
 		}
