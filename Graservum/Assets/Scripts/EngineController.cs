@@ -18,6 +18,8 @@ public class EngineController : MonoBehaviour {
     private Color maxSpeedColor;
     [SerializeField]
     private float particleSpeed = 1.0f;
+	[SerializeField]
+	private float particleScaleModifier = 1.0f;
 #pragma warning restore
 
     private float onConstant;
@@ -60,7 +62,7 @@ public class EngineController : MonoBehaviour {
 
     private void UpdateParticles() {
         // Update particle size from ship scale.
-        exhaustMainModule.startSize = transform.parent.localScale.x;
+        exhaustMainModule.startSize = particleScaleModifier * transform.parent.localScale.x;
 
         // Control the exhaust emission.
         if (playerInput.burnSlider.sliderProgress > playerInput.burnSlider.minimumValue) {
