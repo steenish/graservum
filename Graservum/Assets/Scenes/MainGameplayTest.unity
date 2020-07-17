@@ -666,7 +666,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meanMass: 100
   massStandardDeviation: 50
-  maxNumAsteroids: 0
+  maxNumAsteroids: 5
   maxVelocity: 10
   spawnDistanceOutsideBounds: 50
   boundsForceMagnitude: 1000

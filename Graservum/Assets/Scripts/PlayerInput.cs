@@ -55,8 +55,10 @@ public class PlayerInput : MonoBehaviour {
 	private Rigidbody asteroidRigidbody;
 
     void OnDestroy() {
-		gameOverUI.SetActive(true);
-        Debug.Log("Game Over!");
+		if (gameOverUI != null) {
+			gameOverUI.SetActive(true);
+		}
+		Debug.Log("Game Over!");
     }
 
 	void Start() {

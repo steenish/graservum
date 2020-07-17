@@ -6,6 +6,13 @@ using UnityEngine.SceneManagement;
 public class Restarter : MonoBehaviour {
     
 	public void RestartGame() {
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		FindObjectOfType<AsteroidManager>().enabled = false;
+
+		AsteroidOnDestroy[] asteroidParticlesSpawners = FindObjectsOfType<AsteroidOnDestroy>();
+		foreach (AsteroidOnDestroy asteroidParticleSpawner in asteroidParticlesSpawners) {
+			asteroidParticleSpawner.DisableSpawning();
+		}
+
+		SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
 	}
 }
