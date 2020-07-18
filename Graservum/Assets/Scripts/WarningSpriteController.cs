@@ -11,11 +11,13 @@ public class WarningSpriteController : MonoBehaviour, IPointerClickHandler {
 	[SerializeField]
 	private GameObject parentAsteroid;
 	[SerializeField]
-	private Sprite smallWarningSprite;
+	private Material ordinaryMaterial;
 	[SerializeField]
-	private Sprite criticalWarningSprite;
+	private Material criticalWarningMaterial;
 	[SerializeField]
 	private SpriteRenderer spriteRenderer;
+	[SerializeField]
+	private Sprite warningSprite;
 	[SerializeField]
 	private CircleCollider2D collider;
 	[SerializeField]
@@ -40,6 +42,7 @@ public class WarningSpriteController : MonoBehaviour, IPointerClickHandler {
 	private float activationMass;
 	private float interpolationParameter = 0.0f; // 0 means nothing has happened, 1 means interpolation is complete.
 	private int interpolationDirection = 1;
+	private MeshRenderer parentAsteroidRenderer;
 	private PlayerInput playerInput;
 	private Rigidbody parentAsteroidRigidbody;
 	private Rigidbody playerAsteroidRigidbody;
@@ -47,6 +50,7 @@ public class WarningSpriteController : MonoBehaviour, IPointerClickHandler {
 	private Vector3 offsetVector;
 
 	void Start() {
+		parentAsteroidRenderer = parentAsteroid.GetComponent<MeshRenderer>();
 		parentAsteroidRigidbody = parentAsteroid.GetComponent<Rigidbody>();
 		playerInput = GameObject.Find("Player")?.GetComponent<PlayerInput>();
 		playerAsteroidRigidbody = playerInput?.playerAsteroid.GetComponent<Rigidbody>();
@@ -73,9 +77,11 @@ public class WarningSpriteController : MonoBehaviour, IPointerClickHandler {
 
 		// Pick sprite depending on type of warning.
 		if (isCriticalWarning) {
-			spriteRenderer.sprite = criticalWarningSprite;
+			//spriteRenderer.sprite = null;
+			parentAsteroidRenderer.material = criticalWarningMaterial;
 		} else {
-			spriteRenderer.sprite = smallWarningSprite;
+			//spriteRenderer.sprite = warningSprite;
+			parentAsteroidRenderer.material = ordinaryMaterial;
 		}
 
 		if (isActive) {

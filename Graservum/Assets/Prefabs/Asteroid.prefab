@@ -265,10 +265,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentAsteroid: {fileID: 5612927283552800170}
-  smallWarningSprite: {fileID: 21300000, guid: a63b24d20f716b14db3f5d1e6947f565, type: 3}
-  criticalWarningSprite: {fileID: 21300000, guid: 794f8b2f562db04428a963e76150edd1,
-    type: 3}
+  ordinaryMaterial: {fileID: 2100000, guid: 91d10417bb12a694b8385422c5ec2beb, type: 2}
+  criticalWarningMaterial: {fileID: 2100000, guid: 11464db8ff170284c8b60db30bc46f28,
+    type: 2}
   spriteRenderer: {fileID: 7413441857815314245}
+  warningSprite: {fileID: 21300000, guid: a63b24d20f716b14db3f5d1e6947f565, type: 3}
   collider: {fileID: 8851156437245972262}
   asteroidPrefab: {fileID: 5612927283552800170}
   newAsteroidSpeed: 20
