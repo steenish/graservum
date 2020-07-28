@@ -43,4 +43,159 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa56e7cdefdb95439ad7dcf17859103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - _name: Rock01
+    _audioClip: {fileID: 8300000, guid: 84acfd1079a506145b4ac71eba5b8d0e, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock02
+    _audioClip: {fileID: 8300000, guid: 2ce490f2ea4b3e545bf04bc370231708, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock03
+    _audioClip: {fileID: 8300000, guid: d7274417e604d3f498f90400e794f444, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock04
+    _audioClip: {fileID: 8300000, guid: d3b3d60a042d72945bb39e4dbccb2fdd, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock05
+    _audioClip: {fileID: 8300000, guid: fce80bb975abeff49b43c8bde8578209, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock06
+    _audioClip: {fileID: 8300000, guid: 7f7951ec1b31db345a30235d51520e0b, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock07
+    _audioClip: {fileID: 8300000, guid: 898c9f64b9f7b9a48a761eb1390e34ab, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock08
+    _audioClip: {fileID: 8300000, guid: 7eaf83383d9a3194c8784575f854b151, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock09
+    _audioClip: {fileID: 8300000, guid: 76ab7f50247bf8b4f9602dc99bcc77cb, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock10
+    _audioClip: {fileID: 8300000, guid: 17907d9e8e53bf047934e6d7ecf883b4, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock11
+    _audioClip: {fileID: 8300000, guid: 8ca6798ea8137474d8e8ddefe38ae369, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock12
+    _audioClip: {fileID: 8300000, guid: 544fa35d2e4d35f4981781d50591402f, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock13
+    _audioClip: {fileID: 8300000, guid: 183ba6b9dff05ee46b560e15d0916427, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock14
+    _audioClip: {fileID: 8300000, guid: 9ae49a0fe2ef82b4fa7600b2498926fd, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock15
+    _audioClip: {fileID: 8300000, guid: 0bc0f283ce95a72408c5471f79cd3bc3, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock16
+    _audioClip: {fileID: 8300000, guid: 05cd5b5fc7aea144a87ee8b305fcb631, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock17
+    _audioClip: {fileID: 8300000, guid: 9994d09acb0589a4e9e7d409a829cc9f, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock18
+    _audioClip: {fileID: 8300000, guid: 530692edc7c34a74fa7ff8708e3f1fd4, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock19
+    _audioClip: {fileID: 8300000, guid: 6721bdfca4266cd4a83b1bfa87b18d6f, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock20
+    _audioClip: {fileID: 8300000, guid: 2e2f92d221e572f43aba9719064459e3, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock21
+    _audioClip: {fileID: 8300000, guid: 1b2cac6d18f42ae4c8667a331ad4c8eb, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock22
+    _audioClip: {fileID: 8300000, guid: dd0f8779e15a39e48992678cc38ccc74, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock23
+    _audioClip: {fileID: 8300000, guid: d61490a0c9a7f8b458a705bb6d41dc90, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock24
+    _audioClip: {fileID: 8300000, guid: a2d9768f01e66c74abd99f808568953e, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock25
+    _audioClip: {fileID: 8300000, guid: 46588134f61d5ae45981f01b8882afc7, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock26
+    _audioClip: {fileID: 8300000, guid: e48dccb1542d1e840bf589baaa6c1b0c, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock27
+    _audioClip: {fileID: 8300000, guid: 97dda60b738c31e429eb660f9ab0b90a, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock28
+    _audioClip: {fileID: 8300000, guid: 211f1a7b1a2ef484c8c3f1a42dd156d8, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock29
+    _audioClip: {fileID: 8300000, guid: 56fec2742a08e724f9861fb7285b3cc0, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock30
+    _audioClip: {fileID: 8300000, guid: 8d5e0519c87929d4e9cd55e2dd70b978, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
+  - _name: Rock31
+    _audioClip: {fileID: 8300000, guid: 78920e820bce0cb4797a5ffdf1af2753, type: 3}
+    _loop: 0
+    _volume: 0.2
+    _pitch: 1
