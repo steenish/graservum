@@ -31,9 +31,7 @@ public class MomentumController : MonoBehaviour {
                     _rigidbody.mass += otherRigidbody.mass;
 
                     // Play a random rock collision sound effect.
-                    int soundNumber = Random.Range(1, 32);
-                    string soundName = "Rock" + ((soundNumber < 10) ? "0" : "") + soundNumber;
-                    AudioManager.instance.Play(soundName);
+                    HelperFunctions.PlayRandomRockSound();
 
                     // Destroy the other object.
                     GameObject.Find("AsteroidManager").GetComponent<AsteroidManager>().AsteroidDestroyed();

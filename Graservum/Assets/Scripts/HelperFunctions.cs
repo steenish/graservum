@@ -84,6 +84,14 @@ public class HelperFunctions : MonoBehaviour {
         return propertyInfo == null ? null : propertyInfo.GetValue(obj, null);
     }
 
+    // Picks a random rock sound and tells the AudioManager to play it. Returns the name of the picked rock sound.
+    public static string PlayRandomRockSound() {
+        int soundNumber = Random.Range(1, 32);
+        string soundName = "Rock" + ((soundNumber < 10) ? "0" : "") + soundNumber;
+        AudioManager.instance.Play(soundName);
+        return soundName;
+    }
+
     public static Vector3 RandomPointInBounds(Bounds bounds) {
         return new Vector3(Random.Range(bounds.min.x, bounds.max.x),
                            Random.Range(bounds.min.y, bounds.max.y),
