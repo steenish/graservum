@@ -4,6 +4,11 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Audio;
 
+public enum SoundType {
+	SOUND_EFFECT,
+	MUSIC
+}
+
 [System.Serializable]
 public class Sound {
 
@@ -14,6 +19,10 @@ public class Sound {
 	[SerializeField]
 	private AudioClip _audioClip;
 	public AudioClip clip { get => _audioClip; private set => _audioClip = value; }
+
+	[SerializeField]
+	private SoundType _type;
+	public SoundType type { get => _type; private set => _type = value; }
 
 	[SerializeField]
 	private bool _loop;

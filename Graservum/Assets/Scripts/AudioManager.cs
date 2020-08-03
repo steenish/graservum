@@ -51,6 +51,8 @@ public class AudioManager : MonoBehaviour {
 
 	public void Play(string name) {
 		Sound sound = Array.Find(sounds, e => e.name == name);
+		if (sound.type == SoundType.SOUND_EFFECT && PlayerPrefs.GetInt("PlaySoundEffects") == 0 ||
+			sound.type == SoundType.MUSIC && PlayerPrefs.GetInt("PlayMusic") == 0) return;
 
 		if (sound != null) {
 			// If sound is not a looping sound, or is a looping sound and currently not playing, play the sound.
@@ -79,6 +81,18 @@ public class AudioManager : MonoBehaviour {
 			}
 		} else {
 			Debug.LogWarning("Audio clip " + name + " not found. No audio stopped.");
+		}
+	}
+
+	public void StopMusic() {
+		foreach (Sound sound in sounds) {
+			if (sound.type == SoundType.MUSIC) Stop(sound.name);
+		}
+	}
+
+	public void StopSoundEffects() {
+		foreach (Sound sound in sounds) {
+			if (sound.type == SoundType.SOUND_EFFECT) Stop(sound.name);
 		}
 	}
 
