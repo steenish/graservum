@@ -63,4 +63,8 @@ public class MenuManager : MonoBehaviour {
             AudioManager.instance.StopMusic();
         }
     }
+
+	public void OnClickResetHighscore() {
+		ScoreManager.ResetHighscore();
+	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,8 +40,8 @@ public class PlayerInput : MonoBehaviour {
 	[SerializeField]
     [Range(1.0f, 10.0f)]
     private float timeToMaxValue = 2.0f;
-    [SerializeField]
-    private Text scoreText;
+	[SerializeField]
+	private TMP_Text scoreText;
 	[SerializeField]
 	private GameObject gameOverUI;
 #pragma warning restore
@@ -58,7 +59,8 @@ public class PlayerInput : MonoBehaviour {
 		if (gameOverUI != null) {
 			gameOverUI.SetActive(true);
 		}
-		Debug.Log("Game Over!");
+
+		if (Application.isEditor) Debug.Log("Game Over!");
     }
 
 	void Start() {

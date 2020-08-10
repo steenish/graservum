@@ -25,11 +25,11 @@ public class MenuMomentumController : MonoBehaviour {
             // Check if the other collider is a gravity object.
             if (other.gameObject.layer == LayerMask.NameToLayer("GravityObjects")) {
                 // If other rigidbody has smaller mass and is not the player, or if this rigidbody is the player.
-                if (otherRigidbody.mass <= _rigidbody.mass && otherRigidbody.tag != "Player" || _rigidbody.tag == "Player") {
+                if (otherRigidbody.mass <= _rigidbody.mass) {
                     // Play a random rock collision sound effect.
                     HelperFunctions.PlayRandomRockSound();
 
-                    GameObject particles = Instantiate(asteroidDeathParticles, transform.position, Quaternion.identity);
+                    GameObject particles = Instantiate(asteroidDeathParticles, other.transform.position, Quaternion.identity);
                     particles.GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity;
                 }
             }
