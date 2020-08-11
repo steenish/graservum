@@ -38,8 +38,6 @@ public class MomentumController : MonoBehaviour {
                     Destroy(other.gameObject);
                 }
             }
-        } else {
-            // TODO: Handle player case?
         }
     }
 }
