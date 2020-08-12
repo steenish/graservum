@@ -49,6 +49,10 @@ public class AudioManager : MonoBehaviour {
 		}
 	}
 
+	private void Start() {
+		Play("Theme");
+	}
+
 	public void Play(string name) {
 		Sound sound = Array.Find(sounds, e => e.name == name);
 		if (sound.type == SoundType.SOUND_EFFECT && PlayerPrefs.GetInt("PlaySoundEffects") == 0 ||
