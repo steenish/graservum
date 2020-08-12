@@ -50,6 +50,7 @@ public class EngineController : MonoBehaviour {
     public void UpdateEngine() {
         MoveEngine();
         UpdateParticles();
+		UpdateAudio();
     }
 
     // Moves the engine to the appropriate position according to joystick direction.
@@ -80,4 +81,22 @@ public class EngineController : MonoBehaviour {
             exhaustEmissionRateOverTime.constant = 0.0f;
         }
     }
+
+	private void UpdateAudio() {
+		float sliderProgress = playerInput.burnSlider.sliderProgress;
+
+		// Play or stop the engine sound effect.
+		if (sliderProgress > 0) {
+			AudioManager.instance.Play("Engine");
+		} else {
+			AudioManager.instance.Stop("Engine");
+		}
+
+		// Alter the volume and pitch of the engine sound effect.
+		float volume = sliderProgress * 0.2f;
+		float pitch = sliderProgress * 0.2f;
+
+		AudioManager.instance.ChangeVolume("Engine", volume);
+		AudioManager.instance.ChangePitch("Engine", pitch);
+	}
 }

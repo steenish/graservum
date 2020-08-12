@@ -73,11 +73,6 @@ public class PlayerInput : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
-        // Check for joystick input, start slider timer.
-        if (joystick.GetInput()) {
-            playerPhysicsController.currentlyAccelerating = true;
-        }
-
         // Check for joystick held, update the accumulated time.
         if (joystick.GetInput()) {
             accumulatedTime += Time.deltaTime * playerPhysicsController.accelerationRate;
