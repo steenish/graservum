@@ -242,9 +242,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 329651925
+  m_SortingLayer: 4
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 2f595c375c068f04bb86ba0661c66ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -285,16 +285,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentAsteroid: {fileID: 5612927283552800170}
-  ordinaryMaterial: {fileID: 2100000, guid: 91d10417bb12a694b8385422c5ec2beb, type: 2}
-  criticalWarningMaterial: {fileID: 0}
   spriteRenderer: {fileID: 6746416202795316702}
   spriteAnimator: {fileID: 7076071534106750575}
-  warningSprite: {fileID: 21300000, guid: a63b24d20f716b14db3f5d1e6947f565, type: 3}
   collider: {fileID: 8851156437245972262}
   asteroidPrefab: {fileID: 5612927283552800170}
   newAsteroidSpeed: 20
   outsideDistanceModifier: 1
   zOffset: -2
-  pulseSpeed: 5
-  toColor: {r: 1, g: 1, b: 1, a: 0.78431374}
-  toScale: {x: 0.4, y: 0.4, z: 0.4}
