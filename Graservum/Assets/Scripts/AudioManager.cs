@@ -90,6 +90,7 @@ public class AudioManager : MonoBehaviour {
 
 	public void StopMusic() {
 		foreach (Sound sound in sounds) {
+			Debug.Log(sound.name + ", " + sound.type);
 			if (sound.type == SoundType.MUSIC) Stop(sound.name);
 		}
 	}

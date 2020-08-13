@@ -25,8 +25,6 @@ public class MenuManager : MonoBehaviour {
 
         if (PlayerPrefs.GetInt("PlayMusic") == 0) musicToggle.isOn = false;
         else musicToggle.isOn = true;
-
-        // TODO play menu music
     }
 
     public void StartGame() {
@@ -55,11 +53,12 @@ public class MenuManager : MonoBehaviour {
     }
 
     public void OnMusicValueChange() {
-        if (soundEffectsToggle.isOn) {
+        if (musicToggle.isOn) {
             PlayerPrefs.SetInt("PlayMusic", 1);
-            // TODO play menu music
+			AudioManager.instance.Play("Theme");
         } else {
             PlayerPrefs.SetInt("PlayMusic", 0);
+			Debug.Log("Got here!");
             AudioManager.instance.StopMusic();
         }
     }
