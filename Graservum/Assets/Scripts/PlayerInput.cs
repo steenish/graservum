@@ -56,6 +56,8 @@ public class PlayerInput : MonoBehaviour {
 	private Rigidbody asteroidRigidbody;
 
     void OnDestroy() {
+		GameObject.Find("AsteroidManager").GetComponent<AsteroidManager>().DisableWarningSprites();
+
 		if (gameOverUI != null) {
 			gameOverUI.SetActive(true);
 		}

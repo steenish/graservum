@@ -91,4 +91,10 @@ public class AsteroidManager : MonoBehaviour {
 
 		newAsteroid.GetComponentInChildren<WarningSpriteController>().asteroidManager = this;
 	}
+
+	public void DisableWarningSprites() {
+		foreach (GameObject asteroid in HelperFunctions.FindGameObjectsOnLayer("GravityObjects")) {
+			asteroid.transform.GetChild(0).gameObject.SetActive(false);
+		}
+	}
 }
