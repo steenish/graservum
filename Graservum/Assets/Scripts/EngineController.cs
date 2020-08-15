@@ -47,7 +47,11 @@ public class EngineController : MonoBehaviour {
         currentGradient.SetKeys(colorKeys, alphaKeys);
     }
 
-    public void UpdateEngine() {
+	private void OnDestroy() {
+		AudioManager.instance.Stop("Engine");
+	}
+
+	public void UpdateEngine() {
         MoveEngine();
         UpdateParticles();
 		UpdateAudio();
