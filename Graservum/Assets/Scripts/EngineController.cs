@@ -48,7 +48,9 @@ public class EngineController : MonoBehaviour {
     }
 
 	private void OnDestroy() {
-		AudioManager.instance.Stop("Engine");
+		if (AudioManager.instance != null) {
+			AudioManager.instance.Stop("Engine");
+		}
 	}
 
 	public void UpdateEngine() {

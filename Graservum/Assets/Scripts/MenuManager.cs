@@ -66,4 +66,8 @@ public class MenuManager : MonoBehaviour {
 	public void OnClickResetHighscore() {
 		ScoreManager.ResetHighscore();
 	}
+
+	public void OnClickLogo() {
+		Application.OpenURL("https://geodropstudios.github.io/");
+	}
 }
