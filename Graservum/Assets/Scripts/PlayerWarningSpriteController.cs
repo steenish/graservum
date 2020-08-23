@@ -15,10 +15,6 @@ public class PlayerWarningSpriteController : MonoBehaviour {
     private float massFromMaxSpriteEnabler;
 #pragma warning restore
 
-    void Start() {
-        
-    }
-
     void Update() {
         if (!warningSpriteRenderer.enabled && playerAsteroidRigidbody.mass > playerInput.maxAsteroidMass - massFromMaxSpriteEnabler) {
             warningSpriteRenderer.enabled = true;
