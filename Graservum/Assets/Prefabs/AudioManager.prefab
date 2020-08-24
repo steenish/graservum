@@ -242,3 +242,9 @@ MonoBehaviour:
     _loop: 1
     _volume: 0.5
     _pitch: 0.5
+  - _name: Explosion
+    _audioClip: {fileID: 8300000, guid: 034ccd68037dc884d93efd35c07fc2bf, type: 3}
+    _type: 0
+    _loop: 0
+    _volume: 0.01
+    _pitch: 0.75

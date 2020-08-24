@@ -42,8 +42,8 @@ public class PlayerInput : MonoBehaviour {
     private float timeToMaxValue = 2.0f;
 	[SerializeField]
 	private TMP_Text scoreText;
-	[SerializeField]
-	private GameObject gameOverUI;
+    [SerializeField]
+    private GameObject deathShip;
 #pragma warning restore
 
     // --- Public properties ---
@@ -56,13 +56,9 @@ public class PlayerInput : MonoBehaviour {
 	private Rigidbody asteroidRigidbody;
 
     void OnDestroy() {
-		GameObject.Find("AsteroidManager").GetComponent<AsteroidManager>().DisableWarningSprites();
+        GameObject.Find("AsteroidManager").GetComponent<AsteroidManager>().DisableWarningSprites();
 
-		if (gameOverUI != null) {
-			gameOverUI.SetActive(true);
-		}
-
-		if (Application.isEditor) Debug.Log("Game Over!");
+        Instantiate(deathShip, _engineController.transform.parent.position, Quaternion.identity);
     }
 
 	void Start() {
