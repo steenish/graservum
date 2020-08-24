@@ -58,7 +58,6 @@ public class MenuManager : MonoBehaviour {
 			AudioManager.instance.Play("Theme");
         } else {
             PlayerPrefs.SetInt("PlayMusic", 0);
-			Debug.Log("Got here!");
             AudioManager.instance.StopMusic();
         }
     }
